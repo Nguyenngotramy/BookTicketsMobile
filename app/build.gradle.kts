@@ -1,7 +1,9 @@
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
+    id("kotlin-kapt")
 }
+
 
 android {
     namespace = "com.example.bookticketsmobile"
@@ -47,4 +49,15 @@ dependencies {
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+
+    implementation("androidx.room:room-ktx:2.4.3") // Sử dụng Room 2.4.3
+    kapt("androidx.room:room-compiler:2.4.3") // Sử dụng Room Compiler 2.4.3
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.5.1")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1")
+    implementation("androidx.activity:activity-ktx:1.3.1") // Sử dụng phiên bản mới nhất của androidx.activity
+    implementation("androidx.fragment:fragment-ktx:1.3.6") // Sử dụng phiên bản mới nhất của androidx.fragment
+    implementation("androidx.room:room-runtime:2.4.3") // Sử dụng Room Runtime 2.4.3
+
+
+
 }
