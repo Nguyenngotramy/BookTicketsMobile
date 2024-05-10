@@ -1,12 +1,10 @@
 package com.example.bookticketsmobile.Database
 
-import androidx.lifecycle.LiveData
+import com.example.bookticketsmobile.Model.khachHang
 
-class BookTicketsRepository(private  val bt:BookTicketsDao) {
-    val readAllPhim:LiveData<List<BookTicketsEntity.Phim>> = bt.readAllPhim()
+class BookTicketsRepository(private  val db:BookTicketsDatabase) {
 
-    suspend fun callRegister(kh: BookTicketsEntity.KhachHang) {
-        bt.register(kh)
-    }
+    suspend fun register(kh: khachHang) = db.bookTicketsDao().register(kh)
 
+    fun getAllMovies() = db.bookTicketsDao().readAllPhim()
 }

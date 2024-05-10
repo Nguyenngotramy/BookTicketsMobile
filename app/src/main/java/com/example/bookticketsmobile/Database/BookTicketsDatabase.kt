@@ -4,38 +4,49 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import com.example.bookticketsmobile.Model.CumRap_cbDoAn
+import com.example.bookticketsmobile.Model.CumRap_khuyenMai
+import com.example.bookticketsmobile.Model.Phim
+import com.example.bookticketsmobile.Model.cbDoAn
+import com.example.bookticketsmobile.Model.choNgoi
+import com.example.bookticketsmobile.Model.cumRap
+import com.example.bookticketsmobile.Model.khachHang
+import com.example.bookticketsmobile.Model.khuyenMai
+import com.example.bookticketsmobile.Model.suatChieu
 
 @Database(
-    entities = [BookTicketsEntity.KhachHang::class,
-        BookTicketsEntity.Phim::class,
-        BookTicketsEntity.suatChieu::class,
-        BookTicketsEntity.choNgoi::class,
-        BookTicketsEntity.cumRap::class,
-        BookTicketsEntity.khuyenMai::class,
-        BookTicketsEntity.CumRap_khuyenMai::class,
-        BookTicketsEntity.cbDoan::class,
-        BookTicketsEntity.CumRap_cbDoAn::class], version = 1, exportSchema = false)
+    entities = [khachHang::class,
+      Phim::class,
+     suatChieu::class,
+       choNgoi::class,
+        cumRap::class,
+       khuyenMai::class,
+        CumRap_khuyenMai::class,
+       cbDoAn::class,
+        CumRap_cbDoAn::class], version = 1, exportSchema = false)
  abstract class BookTicketsDatabase:RoomDatabase() {
      abstract fun bookTicketsDao():BookTicketsDao
 
      companion object{
          @Volatile
-         private var INSTANCE: BookTicketsDatabase? = null
+         private var instance: BookTicketsDatabase? = null
+         private val LOCK = Any()
 
-         fun getDatabase(context: Context):BookTicketsDatabase{
-             val tempInstance = INSTANCE
-             if (tempInstance != null){
-                 return  tempInstance
-             }
-             synchronized(this){
-                 val instance = Room.databaseBuilder(
-                     context.applicationContext,
-                     BookTicketsDatabase::class.java,
-                     "book_tickets_data"
-                 ).build()
-                 INSTANCE= instance
-                 return  instance
+         operator fun invoke(context: Context) = instance?:
+         synchronized(LOCK){
+             instance ?:
+             createDatabase(context).also{
+                 instance = it
              }
          }
+
+         private fun createDatabase(context: Context)=
+             Room.databaseBuilder(
+                 context.applicationContext,
+                 BookTicketsDatabase::class.java,
+                 "book_tikets_db"
+             ).build()
+
+
      }
 }

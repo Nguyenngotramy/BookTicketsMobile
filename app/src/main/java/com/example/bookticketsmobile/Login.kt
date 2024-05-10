@@ -4,9 +4,11 @@ import android.content.Intent
 import android.graphics.Paint
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.example.bookticketsmobile.databinding.ActivityLoginBinding
+import com.example.newsprojectpractice.R
+import com.example.newsprojectpractice.databinding.ActivityLoginBinding
 
-private lateinit var bingding :ActivityLoginBinding
+
+private lateinit var bingding : ActivityLoginBinding
 
 class Login : AppCompatActivity() {
 

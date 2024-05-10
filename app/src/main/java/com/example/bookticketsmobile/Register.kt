@@ -1,5 +1,5 @@
 package com.example.bookticketsmobile
-import android.R
+
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
@@ -7,7 +7,10 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import com.example.bookticketsmobile.databinding.ActivityRegisterBinding
+import com.example.newsprojectpractice.R
+import com.example.newsprojectpractice.databinding.ActivityRegisterBinding
+
+
 import java.util.Calendar
 
 class Register : AppCompatActivity() {
@@ -17,6 +20,7 @@ class Register : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_main)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
        /* val list = mutableListOf<String>()

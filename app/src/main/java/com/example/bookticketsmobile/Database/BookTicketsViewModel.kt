@@ -1,3 +1,4 @@
+/*
 package com.example.bookticketsmobile.Database
 
 import android.app.Application
@@ -13,7 +14,7 @@ class BookTicketsViewModel(application :Application):AndroidViewModel(applicatio
     private val repository:BookTicketsRepository
 
     init{
-        val btDao = BookTicketsDatabase.getDatabase(application).bookTicketsDao()
+        val btDao = BookTicketsDatabase.database(application).bookTicketsDao()
         repository = BookTicketsRepository(btDao)
         readAllData = repository.readAllPhim
     }
@@ -24,4 +25,4 @@ class BookTicketsViewModel(application :Application):AndroidViewModel(applicatio
         }
     }
 
-}
+}*/

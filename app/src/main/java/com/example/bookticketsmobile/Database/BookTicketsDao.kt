@@ -6,15 +6,17 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.bookticketsmobile.Model.Phim
+import com.example.bookticketsmobile.Model.khachHang
 
 @Dao
 interface BookTicketsDao {
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun register(khachHang: List<BookTicketsEntity.KhachHang>):Long
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun register(kh: khachHang)
 
 
     @Query("SELECT * FROM phim ORDER BY idPhim ASC")
-    fun readAllPhim(): LiveData<List<BookTicketsEntity.Phim>>
+    fun readAllPhim(): LiveData<List<Phim>>
 
 
 }
