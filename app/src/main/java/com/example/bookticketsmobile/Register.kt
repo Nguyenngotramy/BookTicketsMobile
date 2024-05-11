@@ -7,8 +7,15 @@ import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
 import androidx.appcompat.app.AppCompatActivity
-import com.example.newsprojectpractice.R
-import com.example.newsprojectpractice.databinding.ActivityRegisterBinding
+import androidx.lifecycle.ViewModelProvider
+import com.example.bookticketsmobile.Database.BookTicketsDatabase
+import com.example.bookticketsmobile.Database.BookTicketsRepository
+import com.example.bookticketsmobile.Model.khachHang
+import com.example.bookticketsmobile.databinding.ActivityRegisterBinding
+import com.example.bookticketsmobile.viewModel.khachHangViewModel
+import com.example.bookticketsmobile.viewModel.khachHangViewModelFactory
+import androidx.lifecycle.lifecycleScope
+import kotlinx.coroutines.launch
 
 
 import java.util.Calendar
@@ -18,22 +25,31 @@ class Register : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     private var datePickerDialog: DatePickerDialog? = null
 
+    lateinit var khVM: khachHangViewModel
+    private lateinit var repository: BookTicketsRepository
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
-       /* val list = mutableListOf<String>()
-        list.add("Male")
-        list.add("FeMale")
-
-        //khai bao bo dieu huong
-        val adt = ArrayAdapter(this,
-            R.layout.simple_spinner_item,list
-        )
-        //goi spinner
-        binding.spnGioiTinh.adapter = adt*/
         initDatePicker()
+        // Khởi tạo repository
+        repository = BookTicketsRepository(BookTicketsDatabase.invoke(this))
+
+        // Sử dụng lifecycleScope để thực hiện các hoạt động cơ sở dữ liệu
+        lifecycleScope.launch {
+            val kh = khachHang(1, "Nn", "abc@gmail.com", "29348", "2764387", 2004, "male")
+            repository.register(kh)
+        }
+
+}
+
+
+    private fun setupViewModel() {
+        val khReposition = BookTicketsRepository(BookTicketsDatabase(this))
+        val viewModelProviderFactory = khachHangViewModelFactory(application,khReposition)
+        khVM = ViewModelProvider(this, viewModelProviderFactory)[khachHangViewModel::class.java]
     }
 
     private fun getTodaysDate(): String? {
