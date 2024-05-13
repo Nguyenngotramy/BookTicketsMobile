@@ -13,6 +13,12 @@
         android:theme="@style/Theme.BookTicketsMobile"
         tools:targetApi="31">
         <activity
+            android:name=".AdminUi.nav_header"
+            android:exported="false" />
+        <activity
+            android:name=".AdminUi.NavigationDrawerAdmin"
+            android:exported="false" />
+        <activity
             android:name=".Register"
             android:exported="false" />
         <activity
