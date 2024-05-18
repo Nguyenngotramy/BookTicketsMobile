@@ -18,7 +18,7 @@ class NavigationDrawerAdmin : AppCompatActivity() {
         binding = ActivityNavigationDrawerAdminBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-      toggle = ActionBarDrawerToggle(this,binding.drawerLayout,R.string.open,R.string.close)
+        toggle = ActionBarDrawerToggle(this,binding.drawerLayout,R.string.open,R.string.close)
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
         /*supportActionBar?.setDisplayHomeAsUpEnabled(true)*/
@@ -30,7 +30,6 @@ class NavigationDrawerAdmin : AppCompatActivity() {
         }
 
         binding.toolbar.setOnClickListener {
-            // Mở drawer khi người dùng chạm vào thanh actionBar
             binding.drawerLayout.openDrawer(GravityCompat.START)
         }
         binding.navView.setNavigationItemSelectedListener { menuItem ->

@@ -5,15 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(
-    tableName = "phim",
-    foreignKeys = [ForeignKey(
-        entity = khachHang::class,
-        parentColumns = ["idKhachHang"],
-        childColumns = ["idKhachHang"],
-        onDelete = ForeignKey.CASCADE
-    )]
-)
+@Entity
 data class Phim(
     @PrimaryKey(autoGenerate = true) val idPhim: Int,
     @ColumnInfo(name = "tenBoPhim") val tenBoPhim: String?,
