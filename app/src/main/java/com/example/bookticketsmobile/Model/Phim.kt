@@ -5,7 +5,7 @@ import androidx.room.Entity
 import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "Phim")
 data class Phim(
     @PrimaryKey(autoGenerate = true) val idPhim: Int,
     @ColumnInfo(name = "tenBoPhim") val tenBoPhim: String?,
@@ -13,6 +13,5 @@ data class Phim(
     @ColumnInfo(name = "moTa") val moTa: String?,
     @ColumnInfo(name = "thoiLuong") val thoiLuong: Long?,
     @ColumnInfo(name = "thoiGianRaRap") val thoiGianRaRap: String?,
-    @ColumnInfo(name = "hinhAnh") val HinhAnh: Byte?,
-    @ColumnInfo(name = "idKhachHang") val idKhachHang: Int
+    @ColumnInfo(name = "hinhAnh") val HinhAnh: Byte?
 )
