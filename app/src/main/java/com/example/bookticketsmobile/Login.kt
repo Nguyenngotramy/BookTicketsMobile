@@ -18,7 +18,6 @@ class Login : AppCompatActivity() {
         bingding.btnRegister.setOnClickListener {
             val i = Intent(this,Register::class.java)
             startActivity(i)
-
         }
         bingding.txtForgetPass.paintFlags = bingding.txtForgetPass.paintFlags or Paint.UNDERLINE_TEXT_FLAG
        /* bingding.textView3.paintFlags = bingding.textView3.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
