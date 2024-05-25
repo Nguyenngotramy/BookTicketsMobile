@@ -38,10 +38,10 @@ class Register : AppCompatActivity() {
         repository = BookTicketsRepository(BookTicketsDatabase.invoke(this))
 
         // Sử dụng lifecycleScope để thực hiện các hoạt động cơ sở dữ liệu
-       /* lifecycleScope.launch {
-            val kh = khachHang(2, "Nn", "abc@gmail.com", "29348", "2764387", 2004, "male")
+        lifecycleScope.launch {
+            val kh = khachHang(3, "Nn", "abc@gmail.com", "29348", "2764387", 2004, "male")
             repository.register(kh)
-        }*/
+        }
 
 }
 

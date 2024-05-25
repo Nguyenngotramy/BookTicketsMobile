@@ -7,19 +7,20 @@ import androidx.room.PrimaryKey
 
 @Entity(
     tableName = "choNgoi",
-    foreignKeys = [ForeignKey(
-        entity = suatChieu::class,
-        parentColumns = ["idSuatChieu"],
-        childColumns = ["idSuatChieu"],
-        onDelete = ForeignKey.CASCADE
-    ),
-   ForeignKey(
-        entity = khachHang::class,
-        parentColumns = ["idKhachHang"],
-        childColumns = ["idKhachHang"],
-        onDelete = ForeignKey.CASCADE
-    )]
-
+    foreignKeys = [
+        ForeignKey(
+            entity = suatChieu::class,
+            parentColumns = ["idSuatChieu"],
+            childColumns = ["idSuatChieu"],
+            onDelete = ForeignKey.CASCADE
+        ),
+        ForeignKey(
+            entity = khachHang::class,
+            parentColumns = ["idKhachHang"],
+            childColumns = ["idKhachHang"],
+            onDelete = ForeignKey.CASCADE
+        )
+    ]
 )
 data class choNgoi(
     @PrimaryKey(autoGenerate = true) val idChoNgoi: Int,

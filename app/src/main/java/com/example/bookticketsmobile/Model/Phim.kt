@@ -13,5 +13,5 @@ data class Phim(
     @ColumnInfo(name = "moTa") val moTa: String?,
     @ColumnInfo(name = "thoiLuong") val thoiLuong: Long?,
     @ColumnInfo(name = "thoiGianRaRap") val thoiGianRaRap: String?,
-    @ColumnInfo(name = "hinhAnh") val HinhAnh: Byte?
+    @ColumnInfo(name = "hinhAnh") val HinhAnh: ByteArray?
 )

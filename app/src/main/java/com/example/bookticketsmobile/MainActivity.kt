@@ -3,8 +3,7 @@ package com.example.bookticketsmobile
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.room.Room
-import com.example.bookticketsmobile.Database.BookTicketsDatabase
+
 import com.example.bookticketsmobile.databinding.ActivityMainBinding
 
 
