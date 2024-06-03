@@ -20,7 +20,6 @@ class Login : AppCompatActivity() {
         bingding.btnRegister.setOnClickListener {
             val i = Intent(this,Register::class.java)
             startActivity(i)
-
         }
         bingding.btnLogin.setOnClickListener {
             val i1 = Intent(this,NavigationDrawerAdmin::class.java)
