@@ -14,6 +14,8 @@ interface BookTicketsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun register(kh: khachHang)
 
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addMovies(mv: Phim)
 
     @Query("SELECT * FROM phim ORDER BY idPhim ASC")
     fun readAllPhim(): LiveData<List<Phim>>

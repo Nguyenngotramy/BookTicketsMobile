@@ -1,22 +1,44 @@
 package com.example.bookticketsmobile.AdminUi
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
+import android.app.DatePickerDialog.OnDateSetListener
+import android.app.TimePickerDialog
+import android.content.Context
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.graphics.drawable.BitmapDrawable
+import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
+import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.bookticketsmobile.R
-import java.util.Calendar
-import android.app.DatePickerDialog.OnDateSetListener
-import android.app.TimePickerDialog
+import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.bookticketsmobile.Database.BookTicketsDatabase
+import com.example.bookticketsmobile.Database.BookTicketsRepository
+import com.example.bookticketsmobile.Model.Phim
 import com.example.bookticketsmobile.databinding.FragmentAddMoviesBinding
+import com.example.bookticketsmobile.viewModel.bookTicketViewModel
+import com.example.bookticketsmobile.viewModel.bookTicketViewModelFactory
+import java.io.ByteArrayOutputStream
+import java.io.IOException
+import java.text.SimpleDateFormat
+import java.util.Calendar
+import java.util.Date
+
 
 private var _binding: FragmentAddMoviesBinding? = null
 private val binding get() = _binding!!
 private var datePickerDialog: DatePickerDialog? = null
 private var timePickerDialog: TimePickerDialog? = null
+private var selectedImageUri: Uri? = null
+private lateinit var btViewModel: bookTicketViewModel
+private lateinit var repository: BookTicketsRepository
 class AddMoviesFragment : Fragment() {
 
 
@@ -33,6 +55,13 @@ class AddMoviesFragment : Fragment() {
         initTimePicker()
         binding.timePickerButton.setOnClickListener {
             openTimePicker()
+        }
+        binding.btnimg.setOnClickListener {
+            openImagePicker()
+        }
+        setupViewModel()
+        binding.btnAddd.setOnClickListener {
+            addMovies()
         }
         return binding.root
     }
@@ -95,4 +124,89 @@ class AddMoviesFragment : Fragment() {
         timePickerDialog?.show()
     }
 
+    private fun openImagePicker() {
+        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        intent.type = "image/*"
+
+        if (intent.resolveActivity(requireContext().packageManager) != null) {
+            startActivityForResult(intent, PICK_IMAGE_REQUEST)
+        } else {
+            Toast.makeText(requireContext(), "Không tìm thấy ứng dụng xử lý ảnh.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null) {
+            selectedImageUri = data.data
+
+            try {
+                val inputStream = requireContext().contentResolver.openInputStream(selectedImageUri!!)
+                val bitmap = BitmapFactory.decodeStream(inputStream)
+                inputStream?.close()
+
+                binding.img.setImageBitmap(bitmap)
+            } catch (e: IOException) {
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Lỗi khi đọc ảnh từ Gallery.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+    private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        return stream.toByteArray()
+    }
+    private fun saveBitmapToDrawableFolder(context: Context, filename: String, bitmap: Bitmap) {
+        try {
+            val outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE)
+            bitmap.compress(Bitmap.CompressFormat.PNG, 100, outputStream)
+            outputStream.close()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+    }
+
+    private fun setupViewModel() {
+        val btReposition = BookTicketsRepository(BookTicketsDatabase(requireContext()))
+        val viewModelProviderFactory = bookTicketViewModelFactory(requireActivity().application,btReposition)
+        btViewModel = ViewModelProvider(this, viewModelProviderFactory)[bookTicketViewModel::class.java]
+    }
+    private fun addMovies(){
+        val nameMovie = binding.txtNameMovie.text.toString().trim()
+        val category = binding.txtCategory.text.toString().trim()
+        val describe = binding.txtDescribe.text.toString().trim()
+        val timeString = binding.timePickerButton.text.toString().trim()
+        val format = SimpleDateFormat("HH:mm")
+        val date: Date = format.parse(timeString)
+        val durian: Long = date.time
+        val dateOut = binding.datePickerButton.text.toString().trim()
+        if (selectedImageUri != null) {
+            try {
+
+
+                val bitmap = (binding.img.drawable as BitmapDrawable).bitmap
+                val byteArray = bitmapToByteArray(bitmap)
+                saveBitmapToDrawableFolder(requireContext(), "my_image.png", bitmap)
+                if(nameMovie.isNotEmpty()&&category.isNotEmpty() && describe.isNotEmpty() && timeString.isNotEmpty() && dateOut.isNotEmpty()) {
+                    val mv = Phim(0, nameMovie, category, describe, durian, dateOut, byteArray)
+                    btViewModel.addMovies(mv)
+                    Toast.makeText(requireContext(), "Add success", Toast.LENGTH_SHORT).show()
+
+                }else{
+                    Toast.makeText(requireContext(), "Fill out form", Toast.LENGTH_SHORT).show()
+
+                }
+            } catch (e: IOException) {
+                e.printStackTrace()
+                Toast.makeText(requireContext(), "Lỗi khi đọc ảnh từ Gallery.", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(requireContext(), "Vui lòng chọn hình ảnh.", Toast.LENGTH_SHORT).show()
+        }
+    }
+    companion object {
+        private const val PICK_IMAGE_REQUEST = 1
+    }
 }

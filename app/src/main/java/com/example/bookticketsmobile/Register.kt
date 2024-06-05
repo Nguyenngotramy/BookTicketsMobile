@@ -11,19 +11,16 @@ import com.example.bookticketsmobile.Database.BookTicketsDatabase
 import com.example.bookticketsmobile.Database.BookTicketsRepository
 import com.example.bookticketsmobile.Model.khachHang
 import com.example.bookticketsmobile.databinding.ActivityRegisterBinding
-import com.example.bookticketsmobile.viewModel.khachHangViewModel
-import com.example.bookticketsmobile.viewModel.khachHangViewModelFactory
-import androidx.lifecycle.lifecycleScope
-import kotlinx.coroutines.launch
+import com.example.bookticketsmobile.viewModel.bookTicketViewModel
+import com.example.bookticketsmobile.viewModel.bookTicketViewModelFactory
 import java.util.Calendar
 
 class Register : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private var datePickerDialog: DatePickerDialog? = null
-    private lateinit var khViewModel: khachHangViewModel
+    private lateinit var btViewModel: bookTicketViewModel
 
-    private lateinit var repository: BookTicketsRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -32,33 +29,24 @@ class Register : AppCompatActivity() {
         setContentView(binding.root)
         initDatePicker()
         // Khởi tạo repository
-        repository = BookTicketsRepository(BookTicketsDatabase.invoke(this))
+      /*  repository = BookTicketsRepository(BookTicketsDatabase.invoke(this))*/
         setupViewModel()
         binding.btnRegisterkh.setOnClickListener {
             registerKH()
         }
         // Sử dụng lifecycleScope để thực hiện các hoạt động cơ sở dữ liệu
-        lifecycleScope.launch {
+   /*     lifecycleScope.launch {*/
            /* val kh = khachHang(3, "Nn", "abc@gmail.com", "29348", "2764387", "20/07/2004", "male")
             repository.register(kh)*/
-        }
+    /*    }*/
 
 }
 
 
     private fun setupViewModel() {
-        val khReposition = BookTicketsRepository(BookTicketsDatabase(this))
-        val viewModelProviderFactory = khachHangViewModelFactory(application,khReposition)
-        khViewModel = ViewModelProvider(this, viewModelProviderFactory)[khachHangViewModel::class.java]
-    }
-
-    private fun getTodaysDate(): String? {
-        val cal: Calendar = Calendar.getInstance()
-        val year: Int = cal.get(Calendar.YEAR)
-        var month: Int = cal.get(Calendar.MONTH)
-        month = month + 1
-        val day: Int = cal.get(Calendar.DAY_OF_MONTH)
-        return makeDateString(day, month, year)
+        val btReposition = BookTicketsRepository(BookTicketsDatabase(this))
+        val viewModelProviderFactory = bookTicketViewModelFactory(application,btReposition)
+        btViewModel = ViewModelProvider(this, viewModelProviderFactory)[bookTicketViewModel::class.java]
     }
 
     private fun initDatePicker() {
@@ -130,7 +118,7 @@ class Register : AppCompatActivity() {
         if (fullName.isNotEmpty() && phone.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && dateOfBirth.isNotEmpty() && gender.isNotEmpty()) {
             val kh = khachHang(0, fullName, phone, email, password, dateOfBirth, gender)
 
-            khViewModel.register(kh)
+            btViewModel.register(kh)
             Toast.makeText(this,"Register success",Toast.LENGTH_SHORT).show()
             binding.txtFullName.setText("")
             binding.txtPhone.setText("")

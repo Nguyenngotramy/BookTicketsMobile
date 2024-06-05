@@ -8,12 +8,12 @@ import com.example.bookticketsmobile.Model.Phim
 import com.example.bookticketsmobile.Model.khachHang
 import kotlinx.coroutines.launch
 
-class khachHangViewModel(app:Application,private val btrepostory:BookTicketsRepository) : AndroidViewModel(app){
+class bookTicketViewModel(app: Application, private val btrepostory: BookTicketsRepository) : AndroidViewModel(app){
 
-    fun register(kh:khachHang) = viewModelScope.launch {
-        btrepostory.register(kh)
+        fun register(kh: khachHang) = viewModelScope.launch {
+            btrepostory.register(kh)
+        }
+        fun addMovies(mv: Phim) = viewModelScope.launch {
+            btrepostory.addMovies(mv)
+        }
     }
-    fun addMovies(mv: Phim) = viewModelScope.launch {
-        btrepostory.addMovies(mv)
-    }
-}
