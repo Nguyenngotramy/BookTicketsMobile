@@ -1,11 +1,10 @@
 package com.example.bookticketsmobile
-
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
 import android.os.Bundle
 import android.view.View
-import android.widget.ArrayAdapter
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import com.example.bookticketsmobile.Database.BookTicketsDatabase
@@ -16,16 +15,14 @@ import com.example.bookticketsmobile.viewModel.khachHangViewModel
 import com.example.bookticketsmobile.viewModel.khachHangViewModelFactory
 import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
-
-
 import java.util.Calendar
 
 class Register : AppCompatActivity() {
 
     private lateinit var binding: ActivityRegisterBinding
     private var datePickerDialog: DatePickerDialog? = null
+    private lateinit var khViewModel: khachHangViewModel
 
-    lateinit var khVM: khachHangViewModel
     private lateinit var repository: BookTicketsRepository
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -36,11 +33,14 @@ class Register : AppCompatActivity() {
         initDatePicker()
         // Khởi tạo repository
         repository = BookTicketsRepository(BookTicketsDatabase.invoke(this))
-
+        setupViewModel()
+        binding.btnRegisterkh.setOnClickListener {
+            registerKH()
+        }
         // Sử dụng lifecycleScope để thực hiện các hoạt động cơ sở dữ liệu
         lifecycleScope.launch {
-            val kh = khachHang(3, "Nn", "abc@gmail.com", "29348", "2764387", 2004, "male")
-            repository.register(kh)
+           /* val kh = khachHang(3, "Nn", "abc@gmail.com", "29348", "2764387", "20/07/2004", "male")
+            repository.register(kh)*/
         }
 
 }
@@ -49,7 +49,7 @@ class Register : AppCompatActivity() {
     private fun setupViewModel() {
         val khReposition = BookTicketsRepository(BookTicketsDatabase(this))
         val viewModelProviderFactory = khachHangViewModelFactory(application,khReposition)
-        khVM = ViewModelProvider(this, viewModelProviderFactory)[khachHangViewModel::class.java]
+        khViewModel = ViewModelProvider(this, viewModelProviderFactory)[khachHangViewModel::class.java]
     }
 
     private fun getTodaysDate(): String? {
@@ -107,13 +107,6 @@ class Register : AppCompatActivity() {
         builder.setTitle("Select Gender")
             .setItems(genderOptions) { dialog, which ->
                 val selectedGender = genderOptions[which]
-                // Xử lý khi người dùng chọn giới tính
-                // Ví dụ:
-                // when (selectedGender) {
-                //     "Male" -> { /* Xử lý khi chọn giới tính Nam */ }
-                //     "Female" -> { /* Xử lý khi chọn giới tính Nữ */ }
-                //     "Other" -> { /* Xử lý khi chọn giới tính Khác */ }
-                // }
                 binding.btnGender.text = selectedGender
                 dialog.dismiss()
             }
@@ -126,6 +119,33 @@ class Register : AppCompatActivity() {
         showGenderDialog()
     }
 
+
+    private fun registerKH(){
+        val fullName = binding.txtFullName.text.toString().trim()
+        val phone = binding.txtPhone.text.toString().trim()
+        val email = binding.txtEmail.text.toString().trim()
+        val password = binding.txtPassword.text.toString().trim()
+        val dateOfBirth = binding.datePickerButton.text.toString().trim()
+        val gender = binding.btnGender.text.toString().trim()
+        if (fullName.isNotEmpty() && phone.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && dateOfBirth.isNotEmpty() && gender.isNotEmpty()) {
+            val kh = khachHang(0, fullName, phone, email, password, dateOfBirth, gender)
+
+            khViewModel.register(kh)
+            Toast.makeText(this,"Register success",Toast.LENGTH_SHORT).show()
+            binding.txtFullName.setText("")
+            binding.txtPhone.setText("")
+            binding.txtPassword.setText("")
+            binding.txtEmail.setText("")
+            binding.datePickerButton.setText("Date of birth")
+            binding.btnGender.setText("Gender")
+
+        }else{
+            Toast.makeText(this, "Please fill out the form!", Toast.LENGTH_SHORT).show()
+        }
+
+
+
+    }
 
 
 }

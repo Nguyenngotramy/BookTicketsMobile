@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.btnLoginHome.setOnClickListener{
-            val i1 = Intent(this,DetailOfFilm::class.java)
+            val i1 = Intent(this,Login::class.java)
             startActivity(i1)
         }
         binding.btnRegisterHome.setOnClickListener{

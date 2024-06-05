@@ -19,6 +19,13 @@
             android:name=".Login"
             android:exported="false" />
         <activity
+            android:name=".AdminUi.nav_header"
+            android:exported="false" />
+        <activity
+            android:name=".AdminUi.NavigationDrawerAdmin"
+            android:exported="false" />
+
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

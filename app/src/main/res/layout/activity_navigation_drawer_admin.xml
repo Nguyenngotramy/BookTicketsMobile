@@ -22,6 +22,17 @@
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
             app:layout_constraintTop_toTopOf="parent"/>
 
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/fragmentAdmin"
+            android:layout_width="409dp"
+            android:layout_height="665dp"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="65dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
         <!-- Content -->
     </androidx.constraintlayout.widget.ConstraintLayout>
 

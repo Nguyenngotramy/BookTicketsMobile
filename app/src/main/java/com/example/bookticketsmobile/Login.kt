@@ -26,9 +26,6 @@ class Login : AppCompatActivity() {
             startActivity(i1)
         }
         bingding.txtForgetPass.paintFlags = bingding.txtForgetPass.paintFlags or Paint.UNDERLINE_TEXT_FLAG
-       /* bingding.textView3.paintFlags = bingding.textView3.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG
-        bingding.textView5.paintFlags = bingding.textView5.paintFlags or Paint.STRIKE_THRU_TEXT_FLAG*/
-
 
     }
 }
