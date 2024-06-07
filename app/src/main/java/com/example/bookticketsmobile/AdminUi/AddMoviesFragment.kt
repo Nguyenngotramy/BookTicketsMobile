@@ -17,11 +17,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.bookticketsmobile.Database.BookTicketsDatabase
 import com.example.bookticketsmobile.Database.BookTicketsRepository
 import com.example.bookticketsmobile.Model.Phim
+import com.example.bookticketsmobile.R
 import com.example.bookticketsmobile.databinding.FragmentAddMoviesBinding
 import com.example.bookticketsmobile.viewModel.bookTicketViewModel
 import com.example.bookticketsmobile.viewModel.bookTicketViewModelFactory
@@ -38,7 +40,6 @@ private var datePickerDialog: DatePickerDialog? = null
 private var timePickerDialog: TimePickerDialog? = null
 private var selectedImageUri: Uri? = null
 private lateinit var btViewModel: bookTicketViewModel
-private lateinit var repository: BookTicketsRepository
 class AddMoviesFragment : Fragment() {
 
 
@@ -55,6 +56,8 @@ class AddMoviesFragment : Fragment() {
         initTimePicker()
         binding.timePickerButton.setOnClickListener {
             openTimePicker()
+
+
         }
         binding.btnimg.setOnClickListener {
             openImagePicker()
@@ -63,6 +66,7 @@ class AddMoviesFragment : Fragment() {
         binding.btnAddd.setOnClickListener {
             addMovies()
         }
+
         return binding.root
     }
     private fun initDatePicker() {
@@ -79,7 +83,7 @@ class AddMoviesFragment : Fragment() {
         val day: Int = cal.get(Calendar.DAY_OF_MONTH)
         val style: Int = AlertDialog.THEME_HOLO_LIGHT
         datePickerDialog = DatePickerDialog(requireContext(), style, dateSetListener, year, month, day)
-        //datePickerDialog.getDatePicker().setMaxDate(System.currentTimeMillis());
+
     }
 
     private fun makeDateString(day: Int, month: Int, year: Int): String? {
@@ -187,13 +191,16 @@ class AddMoviesFragment : Fragment() {
 
 
                 val bitmap = (binding.img.drawable as BitmapDrawable).bitmap
-                val byteArray = bitmapToByteArray(bitmap)
+                val byteArray = ByteArrayOutputStream().apply {
+                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, this)
+                }.toByteArray()
                 saveBitmapToDrawableFolder(requireContext(), "my_image.png", bitmap)
+
                 if(nameMovie.isNotEmpty()&&category.isNotEmpty() && describe.isNotEmpty() && timeString.isNotEmpty() && dateOut.isNotEmpty()) {
                     val mv = Phim(0, nameMovie, category, describe, durian, dateOut, byteArray)
                     btViewModel.addMovies(mv)
                     Toast.makeText(requireContext(), "Add success", Toast.LENGTH_SHORT).show()
-
+                    clearTxt()
                 }else{
                     Toast.makeText(requireContext(), "Fill out form", Toast.LENGTH_SHORT).show()
 
@@ -205,6 +212,14 @@ class AddMoviesFragment : Fragment() {
         } else {
             Toast.makeText(requireContext(), "Vui lòng chọn hình ảnh.", Toast.LENGTH_SHORT).show()
         }
+    }
+    private fun clearTxt(){
+        binding.txtNameMovie.setText("")
+        binding.txtCategory.setText("")
+        binding.txtDescribe.setText("")
+        binding.timePickerButton.setText("Movies durian")
+        binding.datePickerButton.setText("Time to hit theaters")
+        binding.img.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.baseline_image_24));
     }
     companion object {
         private const val PICK_IMAGE_REQUEST = 1

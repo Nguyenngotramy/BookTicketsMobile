@@ -36,7 +36,9 @@ android {
     }
     buildFeatures {
         viewBinding = true
+        dataBinding = true
     }
+
 }
 
 dependencies {
@@ -64,5 +66,10 @@ dependencies {
     implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.4.0")
     implementation ("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
+
+    implementation ("androidx.appcompat:appcompat:1.4.0") // Check for the latest version
+    implementation ("androidx.recyclerview:recyclerview:1.2.1") // Check for the latest version
+
+    implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0") // Check for the latest version
 
 }

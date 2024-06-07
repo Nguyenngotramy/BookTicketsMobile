@@ -7,6 +7,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import com.example.bookticketsmobile.Model.Phim
+import com.example.bookticketsmobile.Model.cumRap
 import com.example.bookticketsmobile.Model.khachHang
 
 @Dao
@@ -17,8 +18,15 @@ interface BookTicketsDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addMovies(mv: Phim)
 
-    @Query("SELECT * FROM phim ORDER BY idPhim ASC")
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addCinameClusters(cr: cumRap)
+
+    @Query("SELECT * FROM Phim ORDER BY idPhim ASC")
     fun readAllPhim(): LiveData<List<Phim>>
+
+     @Query("DELETE FROM Phim WHERE idPhim IN (:idList)")
+        fun deleteById(idList: List<Int>)
+
 
 
 }

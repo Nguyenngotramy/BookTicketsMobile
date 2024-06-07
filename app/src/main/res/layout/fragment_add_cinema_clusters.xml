@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminUi.AddCinemaClustersFragment">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="35dp"
+            android:text="Add Ciname Clusters"
+            android:textColor="@color/bluedark"
+            android:textSize="30dp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/provinceCityPickerButton"
+            style="?android:spinnerStyle"
+            android:layout_width="473dp"
+            android:layout_height="83dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="5dp"
+            android:text="Province/City"
+            android:textColor="#686868"
+            android:textSize="16dp"
+            />
+
+
+        <EditText
+            android:id="@+id/txtCinameClustersName"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Name Ciname Cluster"
+            android:inputType="text"
+            android:text="" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAddd"
+            android:layout_width="match_parent"
+            android:layout_height="9dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonlogin"
+            android:text="Add Ciname Cluster"
+            android:textColor="@color/whiteblue" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="248dp"
+            android:orientation="horizontal" />
+
+    </LinearLayout>
+
+</FrameLayout>

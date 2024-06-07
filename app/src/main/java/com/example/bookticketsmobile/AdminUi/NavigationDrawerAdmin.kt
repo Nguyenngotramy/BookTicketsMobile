@@ -3,8 +3,8 @@ package com.example.bookticketsmobile.AdminUi
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.app.ActionBarDrawerToggle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
@@ -47,6 +47,21 @@ class NavigationDrawerAdmin : AppCompatActivity() {
                     Toast.makeText(this, "clickHome", Toast.LENGTH_SHORT).show()
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     goToFragment(AddMoviesFragment())
+                    true
+
+                }
+                R.id.nav_list_movies->{
+                    Toast.makeText(this, "clickHome", Toast.LENGTH_SHORT).show()
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    goToFragment(List_Movies_Fragment())
+                    true
+
+                }
+
+                R.id.nav_add_theatercomplex->{
+                    Toast.makeText(this, "clickHome", Toast.LENGTH_SHORT).show()
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    goToFragment(AddCinemaClustersFragment())
                     true
 
                 }

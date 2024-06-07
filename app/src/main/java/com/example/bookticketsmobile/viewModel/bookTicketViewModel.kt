@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bookticketsmobile.Database.BookTicketsRepository
 import com.example.bookticketsmobile.Model.Phim
+import com.example.bookticketsmobile.Model.cumRap
 import com.example.bookticketsmobile.Model.khachHang
 import kotlinx.coroutines.launch
 
@@ -16,4 +17,15 @@ class bookTicketViewModel(app: Application, private val btrepostory: BookTickets
         fun addMovies(mv: Phim) = viewModelScope.launch {
             btrepostory.addMovies(mv)
         }
+    fun addCinameClusters(cr: cumRap) = viewModelScope.launch {
+        btrepostory.addCinameClusters(cr)
+    }
+    fun deleteMovies(id: List<Int>) = viewModelScope.launch {
+        btrepostory.deleteMovies(id)
+    }
+    fun updateMovies(mv: Phim) = viewModelScope.launch {
+        btrepostory.addMovies(mv)
+    }
+    fun getAllFilm() = btrepostory.getAllMovies()
+
     }
