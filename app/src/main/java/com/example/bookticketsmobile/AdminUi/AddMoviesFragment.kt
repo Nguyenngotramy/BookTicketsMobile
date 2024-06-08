@@ -157,11 +157,6 @@ class AddMoviesFragment : Fragment() {
             }
         }
     }
-    private fun bitmapToByteArray(bitmap: Bitmap): ByteArray {
-        val stream = ByteArrayOutputStream()
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
-        return stream.toByteArray()
-    }
     private fun saveBitmapToDrawableFolder(context: Context, filename: String, bitmap: Bitmap) {
         try {
             val outputStream = context.openFileOutput(filename, Context.MODE_PRIVATE)
@@ -222,6 +217,6 @@ class AddMoviesFragment : Fragment() {
         binding.img.setImageDrawable(ContextCompat.getDrawable(requireContext(), R.drawable.baseline_image_24));
     }
     companion object {
-        private const val PICK_IMAGE_REQUEST = 1
+        const val PICK_IMAGE_REQUEST = 1
     }
 }

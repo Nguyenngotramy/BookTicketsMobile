@@ -9,6 +9,6 @@ data class cbDoAn(
     @PrimaryKey(autoGenerate = true) val idDoAn: Int,
     @ColumnInfo(name = "tenDoAn") val tenDoAn: String?,
     @ColumnInfo(name = "gia") val gia: Double?,
-    @ColumnInfo(name = "hinhAnh") val HinhAnh: Byte?
+    @ColumnInfo(name = "hinhAnh") val HinhAnh: ByteArray?
 
 )

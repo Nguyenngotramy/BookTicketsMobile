@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".AdminUi.AddFoodFragment">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="Add Combo Food"
+                android:textColor="@color/bluedark"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <EditText
+                android:id="@+id/txtNameCbFood"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Name Comba Food"
+                android:inputType="text"
+                android:text="" />
+
+            <EditText
+                android:id="@+id/txtPrice"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Price"
+                android:inputType="text"
+                android:text="" />
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="113dp"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="36dp"
+                    android:layout_height="match_parent"
+                    android:layout_margin="20dp"
+                    android:layout_weight="1"
+                    android:text="Choose Image"
+                    android:textSize="20dp" />
+
+                <ImageView
+                    android:id="@+id/img"
+                    android:layout_width="130dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/baseline_image_24" />
+
+                <ImageView
+                    android:id="@+id/btnimg"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/add" />
+            </LinearLayout>
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAddd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonlogin"
+                android:text="Add Food"
+                android:textColor="@color/whiteblue" />
+
+            <TextView
+                android:id="@+id/txtV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="Open for sale of food combos at movie theaters"
+                android:textColor="@color/bluedark"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/cbFoodPickerButton"
+                style="?android:spinnerStyle"
+
+                android:layout_width="359dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="5dp"
+                android:onClick="openTimePicker"
+                android:text="Combo Food"
+                android:textColor="#686868"
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/NameCinameClusterPickerButton"
+                style="?android:spinnerStyle"
+                android:layout_width="359dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="5dp"
+                android:onClick="openDatePicker"
+                android:text="Name Ciname cluster"
+                android:textColor="#686868"
+                android:textSize="16dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSaleFood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonlogin"
+                android:text="Open"
+                android:textColor="@color/whiteblue" />
+
+        </LinearLayout>
+
+</FrameLayout>

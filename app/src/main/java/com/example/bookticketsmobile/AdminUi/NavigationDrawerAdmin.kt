@@ -65,6 +65,12 @@ class NavigationDrawerAdmin : AppCompatActivity() {
                     true
 
                 }
+                R.id.nav_add_food->{
+                    Toast.makeText(this, "clickHome", Toast.LENGTH_SHORT).show()
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    goToFragment(AddFoodFragment())
+                    true
+                }
 
 
                 else -> false
