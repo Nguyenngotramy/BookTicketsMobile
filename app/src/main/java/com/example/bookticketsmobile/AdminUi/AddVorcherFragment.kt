@@ -1,60 +1,151 @@
 package com.example.bookticketsmobile.AdminUi
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
+import com.example.bookticketsmobile.Database.BookTicketsDatabase
+import com.example.bookticketsmobile.Database.BookTicketsRepository
+import com.example.bookticketsmobile.Model.CumRap_khuyenMai
+import com.example.bookticketsmobile.Model.khuyenMai
 import com.example.bookticketsmobile.R
+import com.example.bookticketsmobile.databinding.FragmentAddVorcherBinding
+import com.example.bookticketsmobile.viewModel.bookTicketViewModel
+import com.example.bookticketsmobile.viewModel.bookTicketViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [AddVorcherFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
 class AddVorcherFragment : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+
+    private var _binding:FragmentAddVorcherBinding?=null
+    private  val binding get() = _binding !!
+    private  lateinit var btViewModel:bookTicketViewModel
+    private var  selectedIdVorcher:String ?= null
+    private var  selectedIdCumRap:Int ?= null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
     }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_add_vorcher, container, false)
+
+        _binding = FragmentAddVorcherBinding.inflate(inflater,container,false)
+        setupViewModel()
+        binding.btnAdd.setOnClickListener {
+            addVorcher()
+        }
+        binding.vorcherPickerButton.setOnClickListener {
+            initVorcherPicker()
+        }
+        binding.NameCinameClusterPickerButton.setOnClickListener {
+            initCinameClusterPicker()
+        }
+
+       return binding.root
+    }
+    private fun setupViewModel() {
+        val btReposition = BookTicketsRepository(BookTicketsDatabase(requireContext()))
+        val viewModelProviderFactory = bookTicketViewModelFactory(requireActivity().application,btReposition)
+        btViewModel = ViewModelProvider(this, viewModelProviderFactory)[bookTicketViewModel::class.java]
     }
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment AddVorcherFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            AddVorcherFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
+    private fun addVorcher(){
+        val idKm = binding.txtIdVorcher.text.toString().trim()
+        val nd = binding.txtNdVorcher.text.toString().trim()
+        val percent = binding.txtPercent.text.toString()
+        val percentD : Double = percent.toDouble()
+
+        if(idKm.isNotEmpty() && nd.isNotEmpty() && percentD != null){
+            val vc = khuyenMai(idKm,percentD,nd)
+            btViewModel.addVorcher(vc)
+            Toast.makeText(requireContext(),"Add sucess",Toast.LENGTH_SHORT).show()
+            clean()
+        }
+    }
+    private fun initVorcherPicker() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_vorcher_picker, null)
+        val spinner: Spinner = dialogView.findViewById(R.id.spinner_vorcher)
+
+        var vorcher : List< String?> = listOf()
+        btViewModel.getAllVorcher().observe(viewLifecycleOwner, { vorcherList ->
+            vorcher = vorcherList.map {it.idKM }
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, vorcher)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        })
+
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setTitle("Id vorcher")
+            .setView(dialogView)
+            .setPositiveButton("OK") { dialog, which ->
+
+                val selectedPosition = spinner.selectedItemPosition
+                val selectedvc = vorcher[selectedPosition]
+                selectedIdVorcher = selectedvc
+
+
+                binding.vorcherPickerButton.text = selectedIdVorcher.toString()
             }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        alertDialog.show()
+    }
+
+    private fun initCinameClusterPicker() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_cinamecluster_picker, null)
+        val spinner: Spinner = dialogView.findViewById(R.id.spinnercinameCluser)
+        var cinameClusterData: List<Pair<Int, String?>> = listOf()
+        btViewModel.getAllCinameCluster().observe(viewLifecycleOwner, { cinameClusterList ->
+            cinameClusterData = cinameClusterList.map { Pair(it.idCumRap, it.tenCumRap) }
+            val cinameClusterNames = cinameClusterData.map { it.second }
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, cinameClusterNames)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        })
+
+        val alertDialog = AlertDialog.Builder(requireContext())
+            .setTitle("Name ciname cluster")
+            .setView(dialogView)
+            .setPositiveButton("OK") { dialog, which ->
+                val selectedPosition = spinner.selectedItemPosition
+                val selectedCinameCluster = cinameClusterData[selectedPosition]
+                val selectedName = selectedCinameCluster.second
+                selectedIdCumRap = selectedCinameCluster.first
+
+                binding.NameCinameClusterPickerButton.text = selectedName
+
+            }
+            .setNegativeButton("Cancel", null)
+            .create()
+
+        alertDialog.show()
+    }
+    private fun clean(){
+        binding.txtIdVorcher.setText("")
+        binding.txtNdVorcher.setText("")
+        binding.txtPercent.setText("")
+    }
+        private fun addVorcher_CumRap(){
+            val idKm = selectedIdVorcher
+            val idCr =  selectedIdCumRap
+            if(idKm != null && idCr != null){
+                val vcr = CumRap_khuyenMai(0,idKm, idCr)
+                btViewModel.addVorcher_CumRap(vcr)
+                Toast.makeText(requireContext(),"add success", Toast.LENGTH_SHORT).show()
+                cleanTXT()
+            }
+        }
+
+    private fun cleanTXT() {
+        binding.NameCinameClusterPickerButton.setText("Name Ciname cluster")
+        binding.vorcherPickerButton.setText("Id Vorcher")
     }
 }

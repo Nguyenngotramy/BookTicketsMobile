@@ -71,7 +71,12 @@ class NavigationDrawerAdmin : AppCompatActivity() {
                     goToFragment(AddFoodFragment())
                     true
                 }
-
+                R.id.nav_add_vorcher->{
+                    Toast.makeText(this, "clickHome", Toast.LENGTH_SHORT).show()
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    goToFragment(AddVorcherFragment())
+                    true
+                }
 
                 else -> false
 

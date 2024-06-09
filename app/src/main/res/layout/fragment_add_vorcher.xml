@@ -4,11 +4,119 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".AdminUi.AddVorcherFragment">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                android:text="Add Vorcher"
+                android:textColor="@color/bluedark"
+                android:textSize="30dp"
+                android:textStyle="bold" />
 
+            <EditText
+                android:id="@+id/txtIdVorcher"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Id vorcher"
+                android:inputType="text"
+                android:text="" />
+            <EditText
+                android:id="@+id/txtNdVorcher"
+                android:layout_width="match_parent"
+                android:layout_height="57dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Describe vorcher"
+                android:inputType="text"
+                android:text="" />
+
+            <EditText
+                android:id="@+id/txtPercent"
+                android:layout_width="match_parent"
+                android:layout_height="63dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight="1"
+                android:ems="10"
+                android:hint="Percent"
+                android:inputType="text"
+                android:text="" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnAdd"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonlogin"
+                android:text="Add Vorcher"
+                android:textColor="@color/whiteblue" />
+
+            <TextView
+                android:id="@+id/txtV"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:text="App vorcher in ciname cluster"
+                android:textColor="@color/bluedark"
+                android:textSize="30dp"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/vorcherPickerButton"
+                style="?android:spinnerStyle"
+                android:layout_width="359dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="5dp"
+                android:text="Combo Food"
+                android:textColor="#686868"
+                android:textSize="16dp" />
+
+            <Button
+                android:id="@+id/NameCinameClusterPickerButton"
+                style="?android:spinnerStyle"
+                android:layout_width="359dp"
+                android:layout_height="70dp"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="5dp"
+                android:text="Name Ciname cluster"
+                android:textColor="#686868"
+                android:textSize="16dp" />
+
+            <androidx.appcompat.widget.AppCompatButton
+                android:id="@+id/btnSaleFood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginRight="25dp"
+                android:layout_marginBottom="10dp"
+                android:layout_weight="1"
+                android:background="@drawable/buttonlogin"
+                android:text="Add"
+                android:textColor="@color/whiteblue" />
+
+        </LinearLayout>
 </FrameLayout>

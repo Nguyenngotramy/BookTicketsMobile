@@ -23,6 +23,6 @@ import androidx.room.PrimaryKey
 )
 data class CumRap_khuyenMai(
     @PrimaryKey(autoGenerate = true) val id:Int,
-    val idKM: Int,
+    val idKM: String,
     val idCumRap: Int
 )
