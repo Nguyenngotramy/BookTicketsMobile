@@ -6,6 +6,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.bookticketsmobile.Model.CumRap_cbDoAn
 import com.example.bookticketsmobile.Model.Phim
 import com.example.bookticketsmobile.Model.cbDoAn
 import com.example.bookticketsmobile.Model.cumRap
@@ -24,6 +25,9 @@ interface BookTicketsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addCinameClusters(cr: cumRap)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addCbFood_CumRap(fc: CumRap_cbDoAn)
 
     @Query("SELECT * FROM Phim ORDER BY idPhim ASC")
     fun readAllPhim(): LiveData<List<Phim>>

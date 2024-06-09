@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.example.bookticketsmobile.Database.BookTicketsDatabase
 import com.example.bookticketsmobile.Database.BookTicketsRepository
+import com.example.bookticketsmobile.Model.CumRap_cbDoAn
 import com.example.bookticketsmobile.Model.cbDoAn
 import com.example.bookticketsmobile.R
 import com.example.bookticketsmobile.databinding.FragmentAddFoodBinding
@@ -35,7 +36,8 @@ class AddFoodFragment : Fragment() {
     private  val binding get() = _binding !!
     private  lateinit var btViewModel:bookTicketViewModel
     private var selectedImageUri: Uri? = null
-
+    private var  selectedIdF:Int ?= null
+    private var  selectedIdCumRap:Int ?= null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -55,6 +57,12 @@ class AddFoodFragment : Fragment() {
         }
         binding.cbFoodPickerButton.setOnClickListener {
             initCbFoodPicker()
+        }
+        binding.NameCinameClusterPickerButton.setOnClickListener {
+            initCinameClusterPicker()
+        }
+        binding.btnSaleFood.setOnClickListener {
+            addCbFood_cumRap()
         }
         return  binding.root
     }
@@ -156,10 +164,10 @@ class AddFoodFragment : Fragment() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_cbfood_picker, null)
         val spinnerCbFood: Spinner = dialogView.findViewById(R.id.spinner_cbfood)
 
-        // Observe the LiveData from ViewModel to get the food data
+        var food : List<Pair<Int, String?>> = listOf()
         btViewModel.getAllFood().observe(viewLifecycleOwner, { foodList ->
-            val foodNames = foodList.map { it.tenDoAn }
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, foodNames)
+             food = foodList.map { Pair(it.idDoAn,it.tenDoAn) }
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, food)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinnerCbFood.adapter = adapter
         })
@@ -168,8 +176,14 @@ class AddFoodFragment : Fragment() {
             .setTitle("Combo Food")
             .setView(dialogView)
             .setPositiveButton("OK") { dialog, which ->
-                val selectedFood = spinnerCbFood.selectedItem.toString()
-                binding.cbFoodPickerButton.text = selectedFood
+
+                val selectedPosition = spinnerCbFood.selectedItemPosition
+                val selectedFood = food[selectedPosition]
+                val selectedName = selectedFood.second
+                 selectedIdF = selectedFood.first
+
+
+                binding.cbFoodPickerButton.text = selectedName
             }
             .setNegativeButton("Cancel", null)
             .create()
@@ -180,11 +194,11 @@ class AddFoodFragment : Fragment() {
     private fun initCinameClusterPicker() {
         val dialogView = layoutInflater.inflate(R.layout.dialog_cinamecluster_picker, null)
         val spinner: Spinner = dialogView.findViewById(R.id.spinnercinameCluser)
-
-        // Observe the LiveData from ViewModel to get the food data
+        var cinameClusterData: List<Pair<Int, String?>> = listOf()
         btViewModel.getAllCinameCluster().observe(viewLifecycleOwner, { cinameClusterList ->
-            val CinameClusterNames = cinameClusterList.map { it.tenCumRap }
-            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, CinameClusterNames )
+            cinameClusterData = cinameClusterList.map { Pair(it.idCumRap, it.tenCumRap) }
+            val cinameClusterNames = cinameClusterData.map { it.second }
+            val adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, cinameClusterNames)
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
             spinner.adapter = adapter
         })
@@ -193,13 +207,33 @@ class AddFoodFragment : Fragment() {
             .setTitle("Name ciname cluster")
             .setView(dialogView)
             .setPositiveButton("OK") { dialog, which ->
-                val selectedFood = spinner.selectedItem.toString()
-                binding.cbFoodPickerButton.text = selectedFood
+                val selectedPosition = spinner.selectedItemPosition
+                val selectedCinameCluster = cinameClusterData[selectedPosition]
+                val selectedName = selectedCinameCluster.second
+                 selectedIdCumRap = selectedCinameCluster.first
+
+                binding.NameCinameClusterPickerButton.text = selectedName
+
             }
             .setNegativeButton("Cancel", null)
             .create()
 
         alertDialog.show()
     }
+   private fun addCbFood_cumRap() {
+       var idFood = selectedIdF
+       var idCumRap = selectedIdCumRap
+       if (idFood != null && idCumRap != null) {
+           val fc = CumRap_cbDoAn(0, idFood, idCumRap)
+           btViewModel.addCbFood_CumRap(fc)
+           Toast.makeText(requireContext(),"add Sucess", Toast.LENGTH_SHORT).show()
+           clean()
+       }
+   }
+    private  fun clean(){
+        binding.cbFoodPickerButton.setText("Combo Food")
+        binding.NameCinameClusterPickerButton.setText("Name Ciname cluster")
+    }
+
 }
 

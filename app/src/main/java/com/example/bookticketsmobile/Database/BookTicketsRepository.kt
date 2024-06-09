@@ -1,5 +1,6 @@
 package com.example.bookticketsmobile.Database
 
+import com.example.bookticketsmobile.Model.CumRap_cbDoAn
 import com.example.bookticketsmobile.Model.Phim
 import com.example.bookticketsmobile.Model.cbDoAn
 import com.example.bookticketsmobile.Model.cumRap
@@ -15,6 +16,7 @@ class BookTicketsRepository(private  val db:BookTicketsDatabase) {
 
     suspend fun addCbFood(cb: cbDoAn) = db.bookTicketsDao().addCbFood(cb)
 
+    suspend fun addCbFood_CumRap(fc:CumRap_cbDoAn)= db.bookTicketsDao().addCbFood_CumRap(fc)
     fun getAllMovies() = db.bookTicketsDao().readAllPhim()
 
     fun getAllcbFood() = db.bookTicketsDao().readAllCbFood()

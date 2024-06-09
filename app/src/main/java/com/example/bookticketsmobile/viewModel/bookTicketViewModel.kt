@@ -4,6 +4,7 @@ import android.app.Application
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.bookticketsmobile.Database.BookTicketsRepository
+import com.example.bookticketsmobile.Model.CumRap_cbDoAn
 import com.example.bookticketsmobile.Model.Phim
 import com.example.bookticketsmobile.Model.cbDoAn
 import com.example.bookticketsmobile.Model.cumRap
@@ -24,6 +25,9 @@ class bookTicketViewModel(app: Application, private val btrepostory: BookTickets
 
          fun addCbFood(cb: cbDoAn) = viewModelScope.launch {
              btrepostory.addCbFood(cb)
+         }
+         fun addCbFood_CumRap(fc:CumRap_cbDoAn) = viewModelScope.launch {
+             btrepostory.addCbFood_CumRap(fc)
          }
         fun deleteMovies(id: List<Int>) = viewModelScope.launch {
         btrepostory.deleteMovies(id)
