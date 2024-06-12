@@ -95,6 +95,17 @@ class NavigationDrawerAdmin : AppCompatActivity() {
                     goToFragment(ListPerformanceFragment())
                     true
                 }
+                R.id.nav_list_food->{
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    goToFragment(ListFoodFragment())
+                    true
+                }
+                R.id.nav_list_vorcher->{
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    goToFragment(ListVorcherFragment())
+                    true
+                }
+
 
                 else -> false
 

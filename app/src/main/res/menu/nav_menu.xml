@@ -53,6 +53,14 @@
                 android:id="@+id/nav_list_performance"
                 android:icon="@drawable/list"
                 android:title="List Performance" />
+            <item
+                android:id="@+id/nav_list_food"
+                android:icon="@drawable/list"
+                android:title="List Food" />
+            <item
+                android:id="@+id/nav_list_vorcher"
+                android:icon="@drawable/list"
+                android:title="List vorcher" />
         </menu>
     </item>
 
