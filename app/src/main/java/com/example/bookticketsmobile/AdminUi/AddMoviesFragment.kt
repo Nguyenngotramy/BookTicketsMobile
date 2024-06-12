@@ -56,8 +56,6 @@ class AddMoviesFragment : Fragment() {
         initTimePicker()
         binding.timePickerButton.setOnClickListener {
             openTimePicker()
-
-
         }
         binding.btnimg.setOnClickListener {
             openImagePicker()

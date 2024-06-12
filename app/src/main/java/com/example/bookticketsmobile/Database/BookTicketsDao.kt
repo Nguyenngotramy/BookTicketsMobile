@@ -13,6 +13,7 @@ import com.example.bookticketsmobile.Model.cbDoAn
 import com.example.bookticketsmobile.Model.cumRap
 import com.example.bookticketsmobile.Model.khachHang
 import com.example.bookticketsmobile.Model.khuyenMai
+import com.example.bookticketsmobile.Model.suatChieu
 
 @Dao
 interface BookTicketsDao {
@@ -35,6 +36,9 @@ interface BookTicketsDao {
     suspend fun addVorcher(vc:khuyenMai)
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addVorcher_CumRap(vcr:CumRap_khuyenMai)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addSuatChieu(sc:suatChieu)
     @Query("SELECT * FROM Phim ORDER BY idPhim ASC")
     fun readAllPhim(): LiveData<List<Phim>>
 
@@ -46,6 +50,9 @@ interface BookTicketsDao {
 
     @Query("SELECT * FROM khuyenMai")
     fun readAllVorcher(): LiveData<List<khuyenMai>>
+
+    @Query("SELECT * FROM khachHang")
+    fun readAllkh(): LiveData<List<khachHang>>
 
 
     @Query("DELETE FROM Phim WHERE idPhim IN (:idList)")

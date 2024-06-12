@@ -47,6 +47,9 @@ class AddVorcherFragment : Fragment() {
         binding.NameCinameClusterPickerButton.setOnClickListener {
             initCinameClusterPicker()
         }
+        binding.btnSaleFood.setOnClickListener {
+            addVorcher_CumRap()
+        }
 
        return binding.root
     }

@@ -181,8 +181,6 @@ class AddFoodFragment : Fragment() {
                 val selectedFood = food[selectedPosition]
                 val selectedName = selectedFood.second
                  selectedIdF = selectedFood.first
-
-
                 binding.cbFoodPickerButton.text = selectedName
             }
             .setNegativeButton("Cancel", null)

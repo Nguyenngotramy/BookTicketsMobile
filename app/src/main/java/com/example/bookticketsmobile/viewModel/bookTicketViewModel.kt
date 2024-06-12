@@ -11,6 +11,7 @@ import com.example.bookticketsmobile.Model.cbDoAn
 import com.example.bookticketsmobile.Model.cumRap
 import com.example.bookticketsmobile.Model.khachHang
 import com.example.bookticketsmobile.Model.khuyenMai
+import com.example.bookticketsmobile.Model.suatChieu
 import kotlinx.coroutines.launch
 
 class bookTicketViewModel(app: Application, private val btrepostory: BookTicketsRepository) : AndroidViewModel(app){
@@ -37,6 +38,10 @@ class bookTicketViewModel(app: Application, private val btrepostory: BookTickets
          fun addVorcher_CumRap(vcr:CumRap_khuyenMai) = viewModelScope.launch {
              btrepostory.addVorcher_cumRap(vcr)
          }
+
+    fun addPerformance(sc:suatChieu) = viewModelScope.launch {
+        btrepostory.addSuatChieu(sc)
+    }
         fun deleteMovies(id: List<Int>) = viewModelScope.launch {
         btrepostory.deleteMovies(id)
         }
@@ -47,4 +52,5 @@ class bookTicketViewModel(app: Application, private val btrepostory: BookTickets
          fun getAllFood() = btrepostory.getAllcbFood()
          fun getAllCinameCluster() = btrepostory.getAllcinameClusters()
          fun getAllVorcher() = btrepostory.getAllVorcher()
+         fun getAllCustomers() = btrepostory.getAllCustomer()
     }

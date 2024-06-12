@@ -44,7 +44,7 @@ import com.example.bookticketsmobile.Model.suatChieu
              Room.databaseBuilder(
                  context.applicationContext,
                  BookTicketsDatabase::class.java,
-                 "bookticketsdbtest1"
+                 "bookticketsdbtest2"
              ).build()
 
 

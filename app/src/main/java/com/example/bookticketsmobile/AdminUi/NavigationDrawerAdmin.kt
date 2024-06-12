@@ -77,6 +77,24 @@ class NavigationDrawerAdmin : AppCompatActivity() {
                     goToFragment(AddVorcherFragment())
                     true
                 }
+                R.id.nav_add_suatchieu->{
+                    Toast.makeText(this, "clickHome", Toast.LENGTH_SHORT).show()
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    goToFragment(AddPerformanceFragment())
+                    true
+                }
+                R.id.nav_list_customer->{
+                    Toast.makeText(this, "clickHome", Toast.LENGTH_SHORT).show()
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    goToFragment(ListCustomerFragment())
+                    true
+                }
+                R.id.nav_list_performance->{
+                    Toast.makeText(this, "clickHome", Toast.LENGTH_SHORT).show()
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    goToFragment(ListPerformanceFragment())
+                    true
+                }
 
                 else -> false
 

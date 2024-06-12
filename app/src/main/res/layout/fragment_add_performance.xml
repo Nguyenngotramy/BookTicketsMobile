@@ -5,10 +5,112 @@
     android:layout_height="match_parent"
     tools:context=".AdminUi.AddPerformanceFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="30dp"
+            android:layout_margin="35dp"
+            android:textStyle="bold"
+            android:textColor="@color/bluedark"
+            android:text="Add Performance" />
 
+        <Button
+            android:id="@+id/NameCinameClusterPickerButton"
+            style="?android:spinnerStyle"
+            android:layout_width="359dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="5dp"
+            android:text="Name Ciname cluster"
+            android:textColor="#686868"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/FilmPickerButton"
+            style="?android:spinnerStyle"
+            android:layout_width="359dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="5dp"
+            android:text="Name Movie"
+            android:textColor="#686868"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/datePickerButton"
+            style="?android:spinnerStyle"
+            android:layout_width="359dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="5dp"
+            android:onClick="openDatePicker"
+            android:text="Show date"
+            android:textColor="#686868"
+            android:textSize="16dp" />
+
+        <Button
+            android:id="@+id/timePickerButton"
+            style="?android:spinnerStyle"
+            android:layout_width="359dp"
+            android:layout_height="70dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="5dp"
+            android:onClick="openTimePicker"
+            android:text="Show time"
+            android:textColor="#686868"
+            android:textSize="16dp" />
+
+        <EditText
+            android:id="@+id/txtCinameRoom"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginRight="25dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="Ciname room"
+            android:inputType="text"
+            android:text="" />
+
+        <EditText
+            android:id="@+id/txtNumSeat"
+            android:layout_width="match_parent"
+            android:layout_height="22dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="5dp"
+            android:layout_weight="1"
+            android:ems="10"
+            android:hint="number of seats"
+            android:inputType="text"
+            android:text="" />
+
+        <androidx.appcompat.widget.AppCompatButton
+            android:id="@+id/btnAdd"
+            android:layout_width="match_parent"
+            android:layout_height="12dp"
+            android:layout_marginLeft="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="25dp"
+            android:layout_marginBottom="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/buttonlogin"
+            android:text="Add"
+            android:textColor="@color/whiteblue" />
+
+    </LinearLayout>
 </FrameLayout>

@@ -24,8 +24,8 @@ import androidx.room.PrimaryKey
 )
 data class suatChieu(
     @PrimaryKey(autoGenerate = true) val idSuatChieu: Int,
-    @ColumnInfo(name = "ngayChieu") val ngayChieu: Long?,
-    @ColumnInfo(name = "thoiGianChieu") val thoiGianChieu: Long?,
+    @ColumnInfo(name = "ngayChieu") val ngayChieu: String?,
+    @ColumnInfo(name = "thoiGianChieu") val thoiGianChieu: String?,
     @ColumnInfo(name = "phongChieu") val phongChieu: String?,
     @ColumnInfo(name = "soLuongChoNgoi") val soLuong: Int?,
     @ColumnInfo(name = "idPhim") val idPhim: Int,
