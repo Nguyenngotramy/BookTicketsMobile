@@ -14,6 +14,7 @@ import com.example.bookticketsmobile.Model.cumRap
 import com.example.bookticketsmobile.Model.khachHang
 import com.example.bookticketsmobile.Model.khuyenMai
 import com.example.bookticketsmobile.Model.suatChieu
+import com.example.bookticketsmobile.Model.suatChieuDetail
 
 @Dao
 interface BookTicketsDao {
@@ -54,7 +55,10 @@ interface BookTicketsDao {
     @Query("SELECT * FROM khachHang")
     fun readAllkh(): LiveData<List<khachHang>>
 
-
+    @Query("""SELECT suatchieu.idSuatChieu, suatChieu.ngayChieu,suatChieu.thoiGianChieu,suatChieu.phongChieu,suatChieu.soLuongChoNgoi,cumRap.tenCumRap, Phim.tenBoPhim FROM suatChieu 
+            INNER JOIN cumRap on cumRap.idCumRap = suatChieu.idCumRap
+            INNER JOIN Phim on Phim.idPhim = suatChieu.idPhim """)
+    fun readAllPerformance(): LiveData<List<suatChieuDetail>>
     @Query("DELETE FROM Phim WHERE idPhim IN (:idList)")
         fun deleteById(idList: List<Int>)
 

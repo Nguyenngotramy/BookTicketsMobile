@@ -53,4 +53,5 @@ class bookTicketViewModel(app: Application, private val btrepostory: BookTickets
          fun getAllCinameCluster() = btrepostory.getAllcinameClusters()
          fun getAllVorcher() = btrepostory.getAllVorcher()
          fun getAllCustomers() = btrepostory.getAllCustomer()
-    }
+         fun getAllPerformance() = btrepostory.getAllPerformance()
+}

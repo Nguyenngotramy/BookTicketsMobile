@@ -7,20 +7,20 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import com.example.bookticketsmobile.Adapter.ListPerformanceAdapter
+import com.example.bookticketsmobile.Adapter.ListCinameClusterAdapter
 import com.example.bookticketsmobile.Database.BookTicketsDatabase
 import com.example.bookticketsmobile.Database.BookTicketsRepository
 import com.example.bookticketsmobile.R
-import com.example.bookticketsmobile.databinding.FragmentListPerformanceBinding
+import com.example.bookticketsmobile.databinding.FragmentListCinameClusterBinding
 import com.example.bookticketsmobile.viewModel.bookTicketViewModel
 import com.example.bookticketsmobile.viewModel.bookTicketViewModelFactory
 
 
-class ListPerformanceFragment : Fragment(R.layout.fragment_list_performance), SearchView.OnQueryTextListener {
-    private var _binding: FragmentListPerformanceBinding? = null
+class ListCinameClusterFragment : Fragment(R.layout.fragment_add_food), SearchView.OnQueryTextListener  {
+    private var _binding: FragmentListCinameClusterBinding? = null
     private val binding get() = _binding!!
     private lateinit var btViewModel: bookTicketViewModel
-    private lateinit var customerAdapter: ListPerformanceAdapter
+    private lateinit var customerAdapter: ListCinameClusterAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,7 +30,7 @@ class ListPerformanceFragment : Fragment(R.layout.fragment_list_performance), Se
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentListPerformanceBinding.inflate(inflater, container, false)
+        _binding = FragmentListCinameClusterBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -43,17 +43,17 @@ class ListPerformanceFragment : Fragment(R.layout.fragment_list_performance), Se
 
     private fun setupViewModel() {
         val btRepository = BookTicketsRepository(BookTicketsDatabase(requireContext()))
-        val viewModelProviderFactory = bookTicketViewModelFactory(requireActivity().application, btRepository)
-        btViewModel = ViewModelProvider(this, viewModelProviderFactory)[bookTicketViewModel::class.java]
+        val viewModelProviderFactory =
+            bookTicketViewModelFactory(requireActivity().application, btRepository)
+        btViewModel =
+            ViewModelProvider(this, viewModelProviderFactory)[bookTicketViewModel::class.java]
     }
 
     private fun setupListView() {
-
-        customerAdapter = ListPerformanceAdapter(requireActivity(), emptyList())
-
-        binding.listperformance.adapter = customerAdapter
-        btViewModel.getAllPerformance().observe(viewLifecycleOwner) { p->
-            customerAdapter.refreshData(p)
+        customerAdapter = ListCinameClusterAdapter(requireActivity(), emptyList())
+        binding.listcc.adapter = customerAdapter
+        btViewModel.getAllCinameCluster().observe(viewLifecycleOwner) { cc ->
+            customerAdapter.refreshData(cc)
         }
     }
 

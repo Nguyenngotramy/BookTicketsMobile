@@ -89,12 +89,7 @@ class NavigationDrawerAdmin : AppCompatActivity() {
                     goToFragment(ListCustomerFragment())
                     true
                 }
-                R.id.nav_list_performance->{
-                    Toast.makeText(this, "clickHome", Toast.LENGTH_SHORT).show()
-                    binding.drawerLayout.closeDrawer(GravityCompat.START)
-                    goToFragment(ListPerformanceFragment())
-                    true
-                }
+
                 R.id.nav_list_food->{
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     goToFragment(ListFoodFragment())
@@ -103,6 +98,16 @@ class NavigationDrawerAdmin : AppCompatActivity() {
                 R.id.nav_list_vorcher->{
                     binding.drawerLayout.closeDrawer(GravityCompat.START)
                     goToFragment(ListVorcherFragment())
+                    true
+                }
+                R.id.nav_list_cc->{
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    goToFragment(ListCinameClusterFragment())
+                    true
+                }
+                R.id.nav_list_performance->{
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    goToFragment(ListPerformanceFragment())
                     true
                 }
 
