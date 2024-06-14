@@ -4,8 +4,8 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
-import android.app.TimePickerDialog
 import android.content.Context
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -16,6 +16,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.NumberPicker
 import android.widget.Toast
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
@@ -32,12 +33,13 @@ import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
+import java.util.Locale
 
 
 private var _binding: FragmentAddMoviesBinding? = null
 private val binding get() = _binding!!
 private var datePickerDialog: DatePickerDialog? = null
-private var timePickerDialog: TimePickerDialog? = null
+private var timePickerDialog: AlertDialog? = null
 private var selectedImageUri: Uri? = null
 private lateinit var btViewModel: bookTicketViewModel
 class AddMoviesFragment : Fragment() {
@@ -108,23 +110,41 @@ class AddMoviesFragment : Fragment() {
     }
 
     private fun initTimePicker() {
-        val timeSetListener = TimePickerDialog.OnTimeSetListener { timePicker, hourOfDay, minute ->
-            val time = makeTimeString(hourOfDay, minute)
+        val dialogView = layoutInflater.inflate(R.layout.dialog_time_picker, null)
+        val hourPicker: NumberPicker = dialogView.findViewById(R.id.hour_picker)
+        val minutePicker: NumberPicker = dialogView.findViewById(R.id.minute_picker)
+
+        // Thiết lập giới hạn cho NumberPicker
+        hourPicker.minValue = 1
+        hourPicker.maxValue = 10
+
+        minutePicker.minValue = 1
+        minutePicker.maxValue = 60
+
+        val timeSetListener = DialogInterface.OnClickListener { _, _ ->
+            val hour = hourPicker.value
+            val minute = minutePicker.value
+            val time = makeTimeString(hour, minute)
             binding.timePickerButton.text = time
         }
-        val cal: Calendar = Calendar.getInstance()
-        val hour: Int = cal.get(Calendar.HOUR_OF_DAY)
-        val minute: Int = cal.get(Calendar.MINUTE)
-        val style: Int = AlertDialog.THEME_HOLO_LIGHT
-         timePickerDialog = TimePickerDialog(requireContext(), style, timeSetListener, hour, minute, true)
+
+        val builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("Select Time")
+        builder.setView(dialogView)
+        builder.setPositiveButton("OK", timeSetListener)
+        builder.setNegativeButton("Cancel", null)
+
+        timePickerDialog = builder.create()
     }
 
     private fun makeTimeString(hourOfDay: Int, minute: Int): String {
         return String.format("%02d:%02d", hourOfDay, minute)
     }
+
     fun openTimePicker() {
         timePickerDialog?.show()
     }
+
 
     private fun openImagePicker() {
         val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -175,9 +195,19 @@ class AddMoviesFragment : Fragment() {
         val category = binding.txtCategory.text.toString().trim()
         val describe = binding.txtDescribe.text.toString().trim()
         val timeString = binding.timePickerButton.text.toString().trim()
-        val format = SimpleDateFormat("HH:mm")
-        val date: Date = format.parse(timeString)
-        val durian: Long = date.time
+        val format = SimpleDateFormat("HH:mm", Locale.getDefault())
+        val date: Date = format.parse(timeString)!!
+
+        val calendar = Calendar.getInstance()
+        calendar.time = date
+        val hours = calendar.get(Calendar.HOUR_OF_DAY)
+        val minutes = calendar.get(Calendar.MINUTE)
+
+// Convert hours and minutes to total duration in minutes
+        val durian: Long = (hours * 60 + minutes).toLong()
+
+// Now durationInMinutes holds the Long value representing the duration in minutes
+
         val dateOut = binding.datePickerButton.text.toString().trim()
         if (selectedImageUri != null) {
             try {

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import android.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.recyclerview.widget.StaggeredGridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.bookticketsmobile.Adapter.ListFilmAdapter
 import com.example.bookticketsmobile.Database.BookTicketsDatabase
 import com.example.bookticketsmobile.Database.BookTicketsRepository
@@ -52,9 +52,10 @@ class List_Movies_Fragment : Fragment(R.layout.list_movies_ad), SearchView.OnQue
     private fun setupRecyclerView() {
         filmAdapter = ListFilmAdapter()
         binding.listMoviesAd.apply {
-            layoutManager = StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL)
+            layoutManager = LinearLayoutManager(context)
             setHasFixedSize(true)
             adapter = filmAdapter
+
         }
     }
 

@@ -37,5 +37,7 @@ class BookTicketsRepository(private  val db:BookTicketsDatabase) {
 
     fun getAllCustomer() = db.bookTicketsDao().readAllkh()
     fun getAllPerformance() = db.bookTicketsDao().readAllPerformance()
+    fun getAllFoodByName(nameFood:String) = db.bookTicketsDao().readAllCbFoodByNameFood(nameFood)
+    fun updateCbDoAn(id:Int,nameFood:String,price:Double) = db.bookTicketsDao().updateCbDoAn(id,nameFood,price)
     suspend fun deleteMovies(idPhim:List<Int>) = db.bookTicketsDao().deleteById(idPhim)
 }

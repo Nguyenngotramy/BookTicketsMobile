@@ -3,7 +3,6 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("org.jetbrains.kotlin.kapt")
 }
-
 android {
     compileSdk = 34
     namespace = "com.example.bookticketsmobile"
@@ -40,7 +39,6 @@ android {
     }
 
 }
-
 dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.1")
     val room_version = "2.6.1"
@@ -71,5 +69,6 @@ dependencies {
     implementation ("androidx.recyclerview:recyclerview:1.2.1") // Check for the latest version
 
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0") // Check for the latest version
+    implementation ("androidx.constraintlayout:constraintlayout:2.1.3")
 
 }

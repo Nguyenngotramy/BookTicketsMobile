@@ -40,10 +40,17 @@ class ListFilmAdapter: RecyclerView.Adapter<ListFilmAdapter.FilmViewHolder>() {
     override fun onBindViewHolder(holder: FilmViewHolder, position: Int) {
         val currentFilm = differ.currentList[position]
         holder.binding.apply {
+            val id:Int = currentFilm.idPhim
+            val idStr:String = id.toString()
+            idFilml.text = idStr
             txtNameMovieL.text = currentFilm.tenBoPhim
             txtCategoryL.text = currentFilm.theLoai
             txtDescribeL.text = currentFilm.moTa
-            txtTimeL.text = currentFilm.thoiLuong?.toFormattedTime()
+            if (currentFilm.thoiLuong != null) {
+                val durationInMinutes: Long = currentFilm.thoiLuong!!
+                val formattedTime: String = durationInMinutes.toFormattedTime()
+                txtTimeL.text = formattedTime
+            }
             txtDateOutL.text = currentFilm.thoiGianRaRap
 
             currentFilm.HinhAnh?.let {
@@ -60,6 +67,6 @@ class ListFilmAdapter: RecyclerView.Adapter<ListFilmAdapter.FilmViewHolder>() {
     fun Long.toFormattedTime(): String {
         val hours = this / 60
         val minutes = this % 60
-        return String.format("%02d:%02d", hours, minutes)
+        return "${hours}h ${minutes}m"
     }
 }

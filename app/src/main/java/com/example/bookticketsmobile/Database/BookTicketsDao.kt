@@ -59,8 +59,19 @@ interface BookTicketsDao {
             INNER JOIN cumRap on cumRap.idCumRap = suatChieu.idCumRap
             INNER JOIN Phim on Phim.idPhim = suatChieu.idPhim """)
     fun readAllPerformance(): LiveData<List<suatChieuDetail>>
+    @Query("""SELECT cbDoAn.idDoAn, cbDoAn.tenDoAn,cbDoAn.gia,cbDoAn.hinhAnh FROM cbDoAn INNER JOIN CumRap_cbDoAn ON CumRap_cbDoAn.idDoAn = cbDoAn.idDoAn
+            INNER JOIN cumRap ON cumRap.idCumRap = CumRap_cbDoAn.idCumRap WHERE cumRap.tenCumRap  IN (:nameList)""")
+    fun readAllCbFoodByNameCinameCluster(nameList:String): LiveData<List<cbDoAn>>
+    @Query("""SELECT * FROM cbDoAn WHERE tenDoAn LIKE (:nameList)""")
+    fun readAllCbFoodByNameFood(nameList:String): LiveData<List<cbDoAn>>
+
+    @Query("UPDATE cbDoAn SET tenDoAn = :tenDoAn, gia = :price WHERE idDoAn = :id")
+    fun updateCbDoAn(id: Int, tenDoAn: String, price: Double)
+
+
     @Query("DELETE FROM Phim WHERE idPhim IN (:idList)")
         fun deleteById(idList: List<Int>)
+
 
 
 
