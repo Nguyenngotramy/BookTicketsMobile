@@ -2,8 +2,9 @@ package com.example.bookticketsmobile
 
 import android.content.Intent
 import android.graphics.Paint
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import com.example.bookticketsmobile.AdminUi.NavigationDrawerAdmin
 import com.example.bookticketsmobile.databinding.ActivityLoginBinding
 
 
@@ -21,7 +22,7 @@ class Login : AppCompatActivity() {
             startActivity(i)
         }
         bingding.btnLogin.setOnClickListener {
-            val i1 = Intent(this,Home::class.java)
+            val i1 = Intent(this,NavigationDrawerAdmin::class.java)
             startActivity(i1)
         }
         bingding.txtForgetPass.paintFlags = bingding.txtForgetPass.paintFlags or Paint.UNDERLINE_TEXT_FLAG
