@@ -16,7 +16,7 @@
 
     <EditText
 
-        android:id="@+id/editTextText"
+        android:id="@+id/txtEmailLogin"
         android:layout_width="match_parent"
         android:layout_height="8dp"
         android:layout_weight="1"
@@ -25,11 +25,11 @@
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
         android:ems="10"
-        android:hint="Email or phone"
+        android:hint="Email"
         android:inputType="text" />
 
     <EditText
-        android:id="@+id/editTextTextPassword"
+        android:id="@+id/txtPassword"
         android:layout_width="match_parent"
         android:layout_height="3dp"
         android:layout_marginTop="5dp"
