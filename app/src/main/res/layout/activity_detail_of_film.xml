@@ -144,8 +144,8 @@
 
     <TextView
         android:id="@+id/textView16"
-        android:layout_width="283dp"
-        android:layout_height="58dp"
+        android:layout_width="284dp"
+        android:layout_height="73dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="Thanh Hiền, Đinh Y Nhung, Trương Minh Cường, Quách Ngọc Tuyên, Tín Nguyễn, Thanh Thức,..."
@@ -160,7 +160,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="4dp"
         android:text="Nội dung"
         android:textSize="20sp"
         android:textStyle="bold"
@@ -204,8 +204,8 @@
 
     <WebView
         android:id="@+id/webView"
-        android:layout_width="370dp"
-        android:layout_height="250dp"
+        android:layout_width="362dp"
+        android:layout_height="171dp"
         android:background="@color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -215,7 +215,7 @@
         app:layout_constraintVertical_bias="0.133" />
 
     <Button
-        android:id="@+id/button4"
+        android:id="@+id/btnBook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/orange"

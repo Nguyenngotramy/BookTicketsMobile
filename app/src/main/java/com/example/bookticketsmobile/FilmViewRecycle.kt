@@ -1,6 +1,5 @@
 package com.example.bookticketsmobile
 
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,7 +11,7 @@ import com.example.bookticketsmobile.databinding.FilmlistItemBinding
 
 private lateinit var binding: FilmlistItemBinding
 //private lateinit var layout:
-class FilmViewRecycle (var listFilm: List<FilmDataHome>): RecyclerView.Adapter<FilmViewRecycle.FilmViewHolder>(){
+class FilmViewRecycle (var listFilm: List<FilmDataHome>, var listener: OnFilmClickListener): RecyclerView.Adapter<FilmViewRecycle.FilmViewHolder>(){
     inner class FilmViewHolder(itemView: View): RecyclerView.ViewHolder(itemView)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FilmViewHolder {
@@ -29,10 +28,9 @@ class FilmViewRecycle (var listFilm: List<FilmDataHome>): RecyclerView.Adapter<F
 
             imageFilm.setImageResource(listFilm[position].imageFilm)
             nameFilm.text = listFilm[position].nameFilm
-//            bookBtn.setOnClickListener {
-//                val details = Intent(requireActivity(), DetailOfFilm::class.java)
-//                startActivity(details)
-//            }
+            binding.bookBtn.setOnClickListener{
+                listener.onFilmClick(listFilm[position])
+            }
         }
     }
 

@@ -2,22 +2,12 @@ package com.example.bookticketsmobile
 
 import android.content.Intent
 import android.os.Bundle
-import android.os.Handler
-import android.os.Looper
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.GridLayout
-import android.widget.ImageView
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.CompositePageTransformer
-import androidx.viewpager2.widget.MarginPageTransformer
-import androidx.viewpager2.widget.ViewPager2
-import com.example.bookticketsmobile.databinding.FilmlistItemBinding
 import com.example.bookticketsmobile.databinding.FragmentHomeBinding
-import kotlin.math.abs
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -31,8 +21,7 @@ private const val ARG_PARAM2 = "param2"
  */
 
 private lateinit var binding: FragmentHomeBinding
-private lateinit var binding2: FilmlistItemBinding
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment(), OnFilmClickListener {
     // TODO: Rename and change types of parameters
     private var param1: String? = null
     private var param2: String? = null
@@ -50,7 +39,6 @@ class HomeFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-        binding2 = FilmlistItemBinding.inflate(layoutInflater)
 //        //khai báo list phim
         var list = mutableListOf<FilmDataHome>()
         list.add(FilmDataHome(R.drawable.latmat7poster, "Lật Mặt 7: Một Điều Ước"))
@@ -59,19 +47,18 @@ class HomeFragment : Fragment() {
         list.add(FilmDataHome(R.drawable.thanhxuanposter, "Thanh xuân 18x2: Lữ trình hướng về em"))
 //
 //        val customGV = GridFilmList(requireActivity(), list)
-        val adapter = FilmViewRecycle(list)
+        val adapter = FilmViewRecycle(list, this)
         binding.filmList.adapter = adapter
         binding.filmList.layoutManager = GridLayoutManager(requireActivity(), 2, GridLayoutManager.HORIZONTAL,false)
-//        binding.filmList.getChildItemId(R.layout.filmlist_item.bookBtn)
-        binding2.bookBtn.setOnClickListener {
-            val details = Intent(requireActivity(), DetailOfFilm::class.java)
-            startActivity(details)
-        }
+
         return binding.root
 
     }
 
-
+    override fun onFilmClick(film: FilmDataHome) {
+        val details = Intent(requireActivity(), DetailOfFilm::class.java)
+        startActivity(details)
+    }
     companion object {
         /**
          * Use this factory method to create a new instance of

@@ -44,6 +44,5 @@ class SelectDayTime : AppCompatActivity() {
         val customGV = CustomGridView(this, timeList)
         var list2 = findViewById<GridView>(R.id.timeList)
         list2.adapter = customGV
-
     }
 }

@@ -1,8 +1,9 @@
 package com.example.bookticketsmobile
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import android.webkit.WebChromeClient
+import androidx.appcompat.app.AppCompatActivity
 import com.example.bookticketsmobile.databinding.ActivityDetailOfFilmBinding
 
 private lateinit var binding:ActivityDetailOfFilmBinding
@@ -19,5 +20,10 @@ class DetailOfFilm : AppCompatActivity() {
         webView.loadData(videoFrame, "text/html", "utf-8")
         webView.settings.javaScriptEnabled = true
         webView.webChromeClient = WebChromeClient()
+
+        binding.btnBook.setOnClickListener{
+            val i1 = Intent(this, SelectDayTime::class.java)
+            startActivity(i1)
+        }
     }
 }
