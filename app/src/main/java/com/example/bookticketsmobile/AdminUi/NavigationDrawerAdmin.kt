@@ -110,6 +110,11 @@ class NavigationDrawerAdmin : AppCompatActivity() {
                     goToFragment(ListPerformanceFragment())
                     true
                 }
+                R.id.nav_add_seat->{
+                    binding.drawerLayout.closeDrawer(GravityCompat.START)
+                    goToFragment(AddSeatFragment())
+                    true
+                }
 
 
                 else -> false

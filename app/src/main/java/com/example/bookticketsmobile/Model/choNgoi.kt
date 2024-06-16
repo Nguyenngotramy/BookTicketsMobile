@@ -24,9 +24,8 @@ import androidx.room.PrimaryKey
 )
 data class choNgoi(
     @PrimaryKey(autoGenerate = true) val idChoNgoi: Int,
-    @ColumnInfo(name = "soHang") val soHang: String?,
-    @ColumnInfo(name = "soGhe") val soGhe: Int?,
+    @ColumnInfo(name = "tenGhe") val tenGhe: String?,
     @ColumnInfo(name = "giaVe") val giaVe: Double?,
     @ColumnInfo(name = "idSuatChieu") val idSuatChieu: Int,
-    @ColumnInfo(name = "idKhachHang") val idKhachHang: Int
+    @ColumnInfo(name = "idKhachHang") val idKhachHang: Int?
 )
