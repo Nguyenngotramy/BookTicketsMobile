@@ -2,6 +2,7 @@ package com.example.bookticketsmobile
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.DatePickerDialog.OnDateSetListener
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
@@ -33,6 +34,9 @@ class Register : AppCompatActivity() {
         setupViewModel()
         binding.btnRegisterkh.setOnClickListener {
             registerKH()
+            val i = Intent(this, Login::class.java)
+            startActivity(i)
+            finish()
         }
         // Sử dụng lifecycleScope để thực hiện các hoạt động cơ sở dữ liệu
    /*     lifecycleScope.launch {*/
@@ -116,7 +120,7 @@ class Register : AppCompatActivity() {
         val dateOfBirth = binding.datePickerButton.text.toString().trim()
         val gender = binding.btnGender.text.toString().trim()
         if (fullName.isNotEmpty() && phone.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty() && dateOfBirth.isNotEmpty() && gender.isNotEmpty()) {
-            val kh = khachHang(0, fullName, phone, email, password, dateOfBirth, gender)
+            val kh = khachHang(0, fullName, email,phone, password, dateOfBirth, gender)
 
             btViewModel.register(kh)
             Toast.makeText(this,"Register success",Toast.LENGTH_SHORT).show()

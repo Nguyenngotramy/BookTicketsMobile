@@ -15,6 +15,15 @@
         android:theme="@style/Theme.BookTicketsMobile"
         tools:targetApi="31">
         <activity
+            android:name=".PaymentSuccess"
+            android:exported="false" />
+        <activity
+            android:name=".Payment"
+            android:exported="false" />
+        <activity
+            android:name=".PopcornCombo"
+            android:exported="false" />
+        <activity
             android:name=".SelectSeat"
             android:exported="false" />
         <activity

@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bookticketsmobile.databinding.FilmlistItemBinding
 
@@ -25,10 +26,13 @@ class FilmViewRecycle (var listFilm: List<FilmDataHome>, var listener: OnFilmCli
             var imageFilm = findViewById<ImageView>(R.id.imageFilm)
             var nameFilm = findViewById<TextView>(R.id.nameFilm)
             var bookBtn = findViewById<Button>(R.id.bookBtn)
+            var filmCard = findViewById<CardView>(R.id.filmCard)
 
             imageFilm.setImageResource(listFilm[position].imageFilm)
             nameFilm.text = listFilm[position].nameFilm
-            binding.bookBtn.setOnClickListener{
+            filmCard.id = listFilm[position].idFilm
+
+            bookBtn.setOnClickListener{
                 listener.onFilmClick(listFilm[position])
             }
         }
@@ -38,12 +42,4 @@ class FilmViewRecycle (var listFilm: List<FilmDataHome>, var listener: OnFilmCli
     override fun getItemCount(): Int {
         return listFilm.size
     }
-
-//    fun clickButton(view:View) {
-//
-//                    bookBtn.setOnClickListener {
-//                val details = Intent(, DetailOfFilm::class.java)
-//                startActivity(details)
-//            }
-//    }
 }

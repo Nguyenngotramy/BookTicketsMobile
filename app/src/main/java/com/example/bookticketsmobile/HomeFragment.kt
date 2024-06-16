@@ -41,10 +41,10 @@ class HomeFragment : Fragment(), OnFilmClickListener {
         binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
 //        //khai báo list phim
         var list = mutableListOf<FilmDataHome>()
-        list.add(FilmDataHome(R.drawable.latmat7poster, "Lật Mặt 7: Một Điều Ước"))
-        list.add(FilmDataHome(R.drawable.hanhtinhkhiposter, "Hành Tinh Khỉ: Vương Quốc Mới"))
-        list.add(FilmDataHome(R.drawable.doremonposter, "Doraemon: Nobita và bản giao hưởng Địa cầu"))
-        list.add(FilmDataHome(R.drawable.thanhxuanposter, "Thanh xuân 18x2: Lữ trình hướng về em"))
+        list.add(FilmDataHome(1, R.drawable.latmat7poster, "Lật Mặt 7: Một Điều Ước"))
+        list.add(FilmDataHome(2, R.drawable.hanhtinhkhiposter, "Hành Tinh Khỉ: Vương Quốc Mới"))
+        list.add(FilmDataHome(3, R.drawable.doremonposter, "Doraemon: Nobita và bản giao hưởng Địa cầu"))
+        list.add(FilmDataHome(4, R.drawable.thanhxuanposter, "Thanh xuân 18x2: Lữ trình hướng về em"))
 //
 //        val customGV = GridFilmList(requireActivity(), list)
         val adapter = FilmViewRecycle(list, this)
@@ -57,6 +57,9 @@ class HomeFragment : Fragment(), OnFilmClickListener {
 
     override fun onFilmClick(film: FilmDataHome) {
         val details = Intent(requireActivity(), DetailOfFilm::class.java)
+        details.putExtra("idFilm", film.idFilm)
+        details.putExtra("imageFilm", film.imageFilm)
+        details.putExtra("nameFilm", film.nameFilm)
         startActivity(details)
     }
     companion object {
