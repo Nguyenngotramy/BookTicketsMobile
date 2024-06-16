@@ -15,7 +15,7 @@ class Payment : AppCompatActivity() {
         val i = intent
         val idFilm = i.getIntExtra("idFilm", 0)
         val imgFilm = i.getIntExtra("imageFilm", 0)
-        val nameFilm = i.getStringExtra("nameFilm")?: "Unknown Film"
+        val nameFilm = i.getStringExtra("nameMovieS")?: "Unknown Film"
         val time = i.getStringExtra("time")?: "Unknown Time"
         val selectedSeat = i.getStringArrayExtra("selectedSeat")?: arrayOf("")
         val comboNames = i.getStringArrayExtra("comboNames") ?: arrayOf("")

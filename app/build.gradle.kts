@@ -71,4 +71,5 @@ dependencies {
     implementation ("androidx.lifecycle:lifecycle-livedata-ktx:2.4.0") // Check for the latest version
     implementation ("androidx.constraintlayout:constraintlayout:2.1.3")
     implementation ("com.github.bumptech.glide:glide:4.12.0")
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.12.0")
 }
