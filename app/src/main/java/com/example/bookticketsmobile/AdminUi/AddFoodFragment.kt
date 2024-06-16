@@ -115,14 +115,16 @@ class AddFoodFragment : Fragment() {
 
             if (selectedImageUri != null) {
                 try {
+                    val inputStream = requireContext().contentResolver.openInputStream(selectedImageUri!!)
+                    val originalBitmap = BitmapFactory.decodeStream(inputStream)
+                    inputStream?.close()
+                    val resizedBitmap = resizeBitmap(originalBitmap, 800, 800)
 
-
-                    val bitmap = (binding.img.drawable as BitmapDrawable).bitmap
                     val byteArray = ByteArrayOutputStream().apply {
-                        bitmap.compress(Bitmap.CompressFormat.PNG, 100, this)
+                        resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, this)
                     }.toByteArray()
-                    saveBitmapToDrawableFolder(requireContext(), "my_image.png", bitmap)
 
+                    saveBitmapToDrawableFolder(requireContext(), "my_image.png", resizedBitmap)
                     if (nameCb.isNotEmpty() && price != null  && price in 1.0..1000.0) {
                         val cb = cbDoAn(0, nameCb, price, byteArray)
                         btViewModel.addCbFood(cb)
@@ -231,6 +233,24 @@ class AddFoodFragment : Fragment() {
     private  fun clean(){
         binding.cbFoodPickerButton.setText("Combo Food")
         binding.NameCinameClusterPickerButton.setText("Name Ciname cluster")
+    }
+    fun resizeBitmap(source: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        var width = source.width
+        var height = source.height
+
+        if (width > maxWidth) {
+            val ratio = maxWidth.toFloat() / width
+            width = maxWidth
+            height = (height * ratio).toInt()
+        }
+
+        if (height > maxHeight) {
+            val ratio = maxHeight.toFloat() / height
+            height = maxHeight
+            width = (width * ratio).toInt()
+        }
+
+        return Bitmap.createScaledBitmap(source, width, height, true)
     }
 
 }

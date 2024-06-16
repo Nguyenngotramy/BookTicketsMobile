@@ -1,85 +1,78 @@
 package com.example.bookticketsmobile
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.bookticketsmobile.Adapter.FilmViewRecycle
+import com.example.bookticketsmobile.Database.BookTicketsDatabase
+import com.example.bookticketsmobile.Database.BookTicketsRepository
+import com.example.bookticketsmobile.Model.Phim
 import com.example.bookticketsmobile.databinding.FragmentHomeBinding
+import com.example.bookticketsmobile.viewModel.bookTicketViewModel
+import com.example.bookticketsmobile.viewModel.bookTicketViewModelFactory
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [HomeFragment.newInstance] factory method to
- * create an instance of this fragment.
- */
-
-private lateinit var binding: FragmentHomeBinding
-class HomeFragment : Fragment(), OnFilmClickListener {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-
-    }
+class HomeFragment : Fragment(), androidx.appcompat.widget.SearchView.OnQueryTextListener {
+    private var _binding: FragmentHomeBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var btViewModel: bookTicketViewModel
+    private lateinit var filmAdapter: FilmViewRecycle
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentHomeBinding.inflate(layoutInflater, container, false)
-//        //khai báo list phim
-        var list = mutableListOf<FilmDataHome>()
-        list.add(FilmDataHome(R.drawable.latmat7poster, "Lật Mặt 7: Một Điều Ước"))
-        list.add(FilmDataHome(R.drawable.hanhtinhkhiposter, "Hành Tinh Khỉ: Vương Quốc Mới"))
-        list.add(FilmDataHome(R.drawable.doremonposter, "Doraemon: Nobita và bản giao hưởng Địa cầu"))
-        list.add(FilmDataHome(R.drawable.thanhxuanposter, "Thanh xuân 18x2: Lữ trình hướng về em"))
-//
-//        val customGV = GridFilmList(requireActivity(), list)
-        val adapter = FilmViewRecycle(list, this)
-        binding.filmList.adapter = adapter
-        binding.filmList.layoutManager = GridLayoutManager(requireActivity(), 2, GridLayoutManager.HORIZONTAL,false)
-
+        _binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
-
     }
 
-    override fun onFilmClick(film: FilmDataHome) {
-        val details = Intent(requireActivity(), DetailOfFilm::class.java)
-        startActivity(details)
-    }
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment HomeFragment.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            HomeFragment().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setupViewModel()
+        setupRecyclerView()
+        observeViewModel()
     }
 
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 
+    private fun setupViewModel() {
+        val btRepository = BookTicketsRepository(BookTicketsDatabase(requireContext()))
+        val viewModelProviderFactory = bookTicketViewModelFactory(requireActivity().application, btRepository)
+        btViewModel = ViewModelProvider(this, viewModelProviderFactory)[bookTicketViewModel::class.java]
+    }
 
+    private fun setupRecyclerView() {
+        filmAdapter = FilmViewRecycle(requireActivity())
+        binding.filmList.apply {
+            layoutManager = GridLayoutManager(context, 2)
+            setHasFixedSize(true)
+            adapter = filmAdapter
+        }
+    }
 
+    private fun observeViewModel() {
+        btViewModel.getAllFilm().observe(viewLifecycleOwner) { mv ->
+            filmAdapter.differ.submitList(mv)
+            updateUI(mv)
+        }
+    }
+
+    private fun updateUI(mv: List<Phim>) {
+        binding.filmList.visibility = if (mv.isNotEmpty()) View.VISIBLE else View.GONE
+    }
+
+    override fun onQueryTextSubmit(query: String?): Boolean {
+        return false
+    }
+
+    override fun onQueryTextChange(newText: String?): Boolean {
+        return false
+    }
 }

@@ -190,7 +190,7 @@ class AddMoviesFragment : Fragment() {
         val viewModelProviderFactory = bookTicketViewModelFactory(requireActivity().application,btReposition)
         btViewModel = ViewModelProvider(this, viewModelProviderFactory)[bookTicketViewModel::class.java]
     }
-    private fun addMovies(){
+    private fun addMovies() {
         val nameMovie = binding.txtNameMovie.text.toString().trim()
         val category = binding.txtCategory.text.toString().trim()
         val describe = binding.txtDescribe.text.toString().trim()
@@ -203,39 +203,61 @@ class AddMoviesFragment : Fragment() {
         val hours = calendar.get(Calendar.HOUR_OF_DAY)
         val minutes = calendar.get(Calendar.MINUTE)
 
-// Convert hours and minutes to total duration in minutes
         val durian: Long = (hours * 60 + minutes).toLong()
-
-// Now durationInMinutes holds the Long value representing the duration in minutes
 
         val dateOut = binding.datePickerButton.text.toString().trim()
         if (selectedImageUri != null) {
             try {
+                val inputStream = requireContext().contentResolver.openInputStream(selectedImageUri!!)
+                val originalBitmap = BitmapFactory.decodeStream(inputStream)
+                inputStream?.close()
+                val resizedBitmap = resizeBitmap(originalBitmap, 800, 800)
 
-
-                val bitmap = (binding.img.drawable as BitmapDrawable).bitmap
                 val byteArray = ByteArrayOutputStream().apply {
-                    bitmap.compress(Bitmap.CompressFormat.PNG, 100, this)
+                    resizedBitmap.compress(Bitmap.CompressFormat.PNG, 100, this)
                 }.toByteArray()
-                saveBitmapToDrawableFolder(requireContext(), "my_image.png", bitmap)
 
-                if(nameMovie.isNotEmpty()&&category.isNotEmpty() && describe.isNotEmpty() && timeString.isNotEmpty() && dateOut.isNotEmpty()) {
+                saveBitmapToDrawableFolder(requireContext(), "my_image.png", resizedBitmap)
+
+                if (nameMovie.isNotEmpty() && category.isNotEmpty() && describe.isNotEmpty() && timeString.isNotEmpty() && dateOut.isNotEmpty()) {
                     val mv = Phim(0, nameMovie, category, describe, durian, dateOut, byteArray)
                     btViewModel.addMovies(mv)
                     Toast.makeText(requireContext(), "Add success", Toast.LENGTH_SHORT).show()
                     clearTxt()
-                }else{
+                } else {
                     Toast.makeText(requireContext(), "Fill out form", Toast.LENGTH_SHORT).show()
-
                 }
             } catch (e: IOException) {
                 e.printStackTrace()
-                Toast.makeText(requireContext(), "Lỗi khi đọc ảnh từ Gallery.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    requireContext(),
+                    "Error reading image from Gallery.",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         } else {
-            Toast.makeText(requireContext(), "Vui lòng chọn hình ảnh.", Toast.LENGTH_SHORT).show()
+            Toast.makeText(requireContext(), "Please select an image.", Toast.LENGTH_SHORT).show()
         }
     }
+    fun resizeBitmap(source: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        var width = source.width
+        var height = source.height
+
+        if (width > maxWidth) {
+            val ratio = maxWidth.toFloat() / width
+            width = maxWidth
+            height = (height * ratio).toInt()
+        }
+
+        if (height > maxHeight) {
+            val ratio = maxHeight.toFloat() / height
+            height = maxHeight
+            width = (width * ratio).toInt()
+        }
+
+        return Bitmap.createScaledBitmap(source, width, height, true)
+    }
+
     private fun clearTxt(){
         binding.txtNameMovie.setText("")
         binding.txtCategory.setText("")
