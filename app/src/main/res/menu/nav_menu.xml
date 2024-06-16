@@ -33,6 +33,10 @@
                 android:id="@+id/nav_add_theatercomplex"
                 android:icon="@drawable/add"
                 android:title="Add theater complex" />
+            <item
+                android:id="@+id/nav_add_seat"
+                android:icon="@drawable/add"
+                android:title="Add seat" />
         </menu>
     </item>
 

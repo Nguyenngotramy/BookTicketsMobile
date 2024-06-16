@@ -10,6 +10,7 @@ import com.example.bookticketsmobile.Model.CumRap_cbDoAn
 import com.example.bookticketsmobile.Model.CumRap_khuyenMai
 import com.example.bookticketsmobile.Model.Phim
 import com.example.bookticketsmobile.Model.cbDoAn
+import com.example.bookticketsmobile.Model.choNgoi
 import com.example.bookticketsmobile.Model.cumRap
 import com.example.bookticketsmobile.Model.khachHang
 import com.example.bookticketsmobile.Model.khuyenMai
@@ -40,6 +41,9 @@ interface BookTicketsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addSuatChieu(sc:suatChieu)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun addSeat(s: choNgoi)
+
     @Query("SELECT * FROM Phim ORDER BY idPhim ASC")
     fun readAllPhim(): LiveData<List<Phim>>
 

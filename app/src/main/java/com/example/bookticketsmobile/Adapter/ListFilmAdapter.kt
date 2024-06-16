@@ -1,5 +1,6 @@
 package com.example.bookticketsmobile.Adapter
 
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -55,11 +56,30 @@ class ListFilmAdapter: RecyclerView.Adapter<ListFilmAdapter.FilmViewHolder>() {
 
             currentFilm.HinhAnh?.let {
                 val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
-                imgL.setImageBitmap(bitmap)
+                val resizedBitmap = resizeBitmap(bitmap, 800, 800) // Resize to 800x800 or adjust as needed
+                imgL.setImageBitmap(resizedBitmap)
             } ?: run {
-                imgL.setImageResource(R.drawable.placeholder_image) // Thay thế bằng hình ảnh placeholder nếu BLOB là null
+                imgL.setImageResource(R.drawable.placeholder_image) // Placeholder image if BLOB is null
             }
         }
+    }
+    fun resizeBitmap(source: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        var width = source.width
+        var height = source.height
+
+        if (width > maxWidth) {
+            val ratio = maxWidth.toFloat() / width
+            width = maxWidth
+            height = (height * ratio).toInt()
+        }
+
+        if (height > maxHeight) {
+            val ratio = maxHeight.toFloat() / height
+            height = maxHeight
+            width = (width * ratio).toInt()
+        }
+
+        return Bitmap.createScaledBitmap(source, width, height, true)
     }
 
 

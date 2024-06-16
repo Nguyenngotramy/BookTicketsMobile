@@ -2,6 +2,7 @@ package com.example.bookticketsmobile.Adapter
 
 import android.app.Activity
 import android.content.Intent
+import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -38,7 +39,8 @@ class ListFoodAdapter(
 
         food.HinhAnh?.let {
             val bitmap = BitmapFactory.decodeByteArray(it, 0, it.size)
-            imgF.setImageBitmap(bitmap)
+            val resizedBitmap = resizeBitmap(bitmap, 800, 800) // Resize to 800x800 or adjust as needed
+            imgF.setImageBitmap(resizedBitmap)
         }
 
         btnUpdate.setOnClickListener {
@@ -56,6 +58,24 @@ class ListFoodAdapter(
         }
 
         return rowView
+    }
+    fun resizeBitmap(source: Bitmap, maxWidth: Int, maxHeight: Int): Bitmap {
+        var width = source.width
+        var height = source.height
+
+        if (width > maxWidth) {
+            val ratio = maxWidth.toFloat() / width
+            width = maxWidth
+            height = (height * ratio).toInt()
+        }
+
+        if (height > maxHeight) {
+            val ratio = maxHeight.toFloat() / height
+            height = maxHeight
+            width = (width * ratio).toInt()
+        }
+
+        return Bitmap.createScaledBitmap(source, width, height, true)
     }
 
     override fun getCount(): Int {

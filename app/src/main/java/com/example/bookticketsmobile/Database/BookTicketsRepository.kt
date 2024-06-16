@@ -4,6 +4,7 @@ import com.example.bookticketsmobile.Model.CumRap_cbDoAn
 import com.example.bookticketsmobile.Model.CumRap_khuyenMai
 import com.example.bookticketsmobile.Model.Phim
 import com.example.bookticketsmobile.Model.cbDoAn
+import com.example.bookticketsmobile.Model.choNgoi
 import com.example.bookticketsmobile.Model.cumRap
 import com.example.bookticketsmobile.Model.khachHang
 import com.example.bookticketsmobile.Model.khuyenMai
@@ -26,6 +27,7 @@ class BookTicketsRepository(private  val db:BookTicketsDatabase) {
     suspend fun addVorcher_cumRap(vcr:CumRap_khuyenMai) = db.bookTicketsDao().addVorcher_CumRap(vcr)
 
     suspend fun addSuatChieu(sc: suatChieu)= db.bookTicketsDao().addSuatChieu(sc)
+    suspend fun addSeat(s: choNgoi)= db.bookTicketsDao().addSeat(s)
 
     fun getAllMovies() = db.bookTicketsDao().readAllPhim()
 

@@ -82,8 +82,8 @@
 
                 <androidx.recyclerview.widget.RecyclerView
                     android:id="@+id/filmList"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="388dp"
+                    android:layout_height="396dp"
                     android:layout_gravity="center"
                     android:layout_marginTop="20dp" />
 
