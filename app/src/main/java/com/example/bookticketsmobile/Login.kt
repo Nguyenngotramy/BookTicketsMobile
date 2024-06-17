@@ -38,9 +38,9 @@ class Login : AppCompatActivity() {
         setupViewModel()
 
         binding.btnLogin.setOnClickListener {
-//            login()
-            val i1 = Intent(this, Home::class.java)
-            startActivity(i1)
+//            val i = Intent(this, Home  ::class.java)
+//            startActivity(i)
+            login()
         }
 
         binding.txtForgetPass.paintFlags = binding.txtForgetPass.paintFlags or Paint.UNDERLINE_TEXT_FLAG
@@ -55,11 +55,10 @@ class Login : AppCompatActivity() {
             Toast.makeText(this, "Please enter email and password", Toast.LENGTH_SHORT).show()
             return
         }
+
         if (email == "admin123@gmail.com" && pass == "admin123") {
             saveLoginStatus(email)
-            val i1 = Intent(this, NavigationDrawerAdmin::class.java)
-            startActivity(i1)
-            finish()
+            startAdminActivity()
         } else {
             btViewModel.getAllCustomers().observe(this, Observer { khList ->
                 val khData = khList.map { Pair(it.email, it.matKhau) }
@@ -68,17 +67,7 @@ class Login : AppCompatActivity() {
 
                 if (emails.contains(email) && passw.contains(pass)) {
                     saveLoginStatus(email)
-                    val i2 = Intent(this, Home::class.java)
-                    startActivity(i2)
-                    finish()
-                    val customer = khList.find { it.email == email }
-                    val name = customer?.hoVaTen
-                    val intent = Intent(this, AccountFragment::class.java)
-                    val bundle = Bundle()
-                    bundle.putString("email", email)
-                    bundle.putString("name", name)
-                    intent.putExtras(bundle)
-                    this.startActivity(intent)
+                    startHomeActivity()
                 } else {
                     Toast.makeText(this, "Invalid email or password", Toast.LENGTH_SHORT).show()
                 }
@@ -97,13 +86,28 @@ class Login : AppCompatActivity() {
         editor.putString("email", email)
         editor.apply()
     }
+
     private fun checkLoginStatus() {
         val isLoggedIn = sharedPreferences.contains("email")
         if (isLoggedIn) {
             val email = sharedPreferences.getString("email", "")
-            val i = Intent(this, Home::class.java)
-            startActivity(i)
-            finish()
+            if (email == "admin123@gmail.com") {
+                startAdminActivity()
+            } else {
+                startHomeActivity()
+            }
         }
+    }
+
+    private fun startAdminActivity() {
+        val i = Intent(this, NavigationDrawerAdmin::class.java)
+        startActivity(i)
+        finish()
+    }
+
+    private fun startHomeActivity() {
+        val i = Intent(this, Home::class.java)
+        startActivity(i)
+        finish()
     }
 }

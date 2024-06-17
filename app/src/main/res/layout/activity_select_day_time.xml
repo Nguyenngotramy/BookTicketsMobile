@@ -107,17 +107,17 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <Button
-        android:id="@+id/cbFoodPickerButton"
+        android:id="@+id/NameCinameClusterPickerButton"
         style="?android:spinnerStyle"
-
-        android:layout_width="247dp"
-        android:layout_height="37dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="20dp"
-        android:onClick="openTimePicker"
-        android:text="Combo Food"
+        android:layout_width="200dp"
+        android:layout_height="70dp"
+        android:onClick="openDatePicker"
+        android:text="Name Ciname cluster"
         android:textColor="#686868"
         android:textSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/horizontalScrollView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.137"
         app:layout_constraintStart_toEndOf="@+id/textView24"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
 
@@ -133,23 +133,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView24" />
 
-    <ImageView
-        android:id="@+id/imgTest"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toEndOf="@+id/textView22"
-        app:layout_constraintTop_toBottomOf="@+id/horizontalScrollView"
-        tools:srcCompat="@tools:sample/avatars" />
-
     <HorizontalScrollView
         android:id="@+id/horizontalScrollView"
         android:layout_width="410dp"
         android:layout_height="128dp"
         android:layout_marginStart="5dp"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.333"
+        app:layout_constraintHorizontal_bias="0.426"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView21">
 
@@ -202,6 +194,14 @@
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
+
+    <TextView
+        android:id="@+id/textView12"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

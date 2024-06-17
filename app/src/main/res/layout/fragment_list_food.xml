@@ -25,7 +25,7 @@
                     android:textStyle="bold" />
 
                 <Button
-                    android:id="@+id/NameCinameClusterPickerButton"
+                    android:id="@+id/ClusterPickerButton"
                     style="?android:spinnerStyle"
                     android:layout_width="wrap_content"
                     android:layout_height="70dp"

@@ -130,7 +130,8 @@ class Register : AppCompatActivity() {
             binding.txtEmail.setText("")
             binding.datePickerButton.setText("Date of birth")
             binding.btnGender.setText("Gender")
-
+            val i1 = Intent(this, Login::class.java)
+            startActivity(i1)
         }else{
             Toast.makeText(this, "Please fill out the form!", Toast.LENGTH_SHORT).show()
         }

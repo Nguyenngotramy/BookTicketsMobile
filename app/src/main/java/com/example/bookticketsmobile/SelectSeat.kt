@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.GridView
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -20,9 +19,10 @@ class SelectSeat : AppCompatActivity(), OnSeatClickListener {
         // lấy dữ liệu từ SelectDayTime
         val i = intent
         val idFilm = i.getIntExtra("idFilm", 0)
-        val imgFilm = i.getIntExtra("imageFilm", 0)
+        val imageBytes = i.getByteArrayExtra("image_bytes")
         val nameFilm = i.getStringExtra("nameFilm")?: "Unknown Film"
         val time = i.getStringExtra("time")?: "Unknown Time"
+        val thoiLuong = i.getLongExtra("thoiLuong", 0)
 
 
 
@@ -38,17 +38,27 @@ class SelectSeat : AppCompatActivity(), OnSeatClickListener {
         list.add(SeatData(9, "B1"))
         list.add(SeatData(10, "B2"))
         list.add(SeatData(11, "B3"))
-        list.add(SeatData(12, "A1"))
-        list.add(SeatData(13, "A2"))
-        list.add(SeatData(14, "A3"))
-        list.add(SeatData(15, "A4"))
-        list.add(SeatData(16, "A5"))
-        list.add(SeatData(17, "A6"))
-        list.add(SeatData(18, "A7"))
-        list.add(SeatData(19, "A8"))
-        list.add(SeatData(20, "B1"))
-        list.add(SeatData(21, "B2"))
-        list.add(SeatData(22, "B3"))
+        list.add(SeatData(12, "B4"))
+        list.add(SeatData(13, "B5"))
+        list.add(SeatData(14, "B6"))
+        list.add(SeatData(15, "B7"))
+        list.add(SeatData(16, "B8"))
+        list.add(SeatData(17, "C1"))
+        list.add(SeatData(18, "C2"))
+        list.add(SeatData(19, "C3"))
+        list.add(SeatData(20, "C4"))
+        list.add(SeatData(21, "C5"))
+        list.add(SeatData(22, "C6"))
+        list.add(SeatData(23, "C7"))
+        list.add(SeatData(24, "C8"))
+        list.add(SeatData(25, "D1"))
+        list.add(SeatData(26, "D2"))
+        list.add(SeatData(27, "D3"))
+        list.add(SeatData(28, "D4"))
+        list.add(SeatData(29, "D5"))
+        list.add(SeatData(30, "D6"))
+        list.add(SeatData(31, "D7"))
+        list.add(SeatData(32, "D8"))
 
         val customGV = CustomGridViewSeat(this, list, this)
         var seatList = findViewById<GridView>(R.id.seatList)
@@ -63,9 +73,10 @@ class SelectSeat : AppCompatActivity(), OnSeatClickListener {
             } else {
                 val i1 = Intent(this, PopcornCombo::class.java)
                 i1.putExtra("idFilm", idFilm)
-                i1.putExtra("imageFilm", imgFilm)
+                i1.putExtra("imageFilm", imageBytes)
                 i1.putExtra("nameFilm", nameFilm)
                 i1.putExtra("time", time)
+                i1.putExtra("thoiLuong", thoiLuong)
                 i1.putExtra("selectedSeat", seatSelecteds.toTypedArray())
                 calTotal = total()
                 i1.putExtra("totalSeat", calTotal)

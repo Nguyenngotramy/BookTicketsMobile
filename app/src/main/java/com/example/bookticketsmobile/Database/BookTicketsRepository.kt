@@ -40,6 +40,8 @@ class BookTicketsRepository(private  val db:BookTicketsDatabase) {
     fun getAllCustomer() = db.bookTicketsDao().readAllkh()
     fun getAllPerformance() = db.bookTicketsDao().readAllPerformance()
     fun getAllFoodByName(nameFood:String) = db.bookTicketsDao().readAllCbFoodByNameFood(nameFood)
+    fun getAllDateByPhim (id:Int,idCr:Int) = db.bookTicketsDao().readAllDateByPhim(id, idCr)
+    fun getAllTgcById (id:Int,idCr:Int,day:String) = db.bookTicketsDao().readAlltgcByid(id,idCr,day)
     fun updateCbDoAn(id:Int,nameFood:String,price:Double) = db.bookTicketsDao().updateCbDoAn(id,nameFood,price)
     suspend fun deleteMovies(idPhim:List<Int>) = db.bookTicketsDao().deleteById(idPhim)
 }

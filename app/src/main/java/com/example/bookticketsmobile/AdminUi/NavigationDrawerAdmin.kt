@@ -1,5 +1,7 @@
 package com.example.bookticketsmobile.AdminUi
 
+import android.content.Intent
+import android.content.SharedPreferences
 import android.os.Bundle
 import android.view.MenuItem
 import android.widget.Toast
@@ -8,20 +10,25 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
+import com.example.bookticketsmobile.Login
 import com.example.bookticketsmobile.R
 import com.example.bookticketsmobile.databinding.ActivityNavigationDrawerAdminBinding
 
 class NavigationDrawerAdmin : AppCompatActivity() {
     private lateinit var binding: ActivityNavigationDrawerAdminBinding
     private lateinit var toggle: ActionBarDrawerToggle
-    private lateinit var fragmentManager:FragmentManager
+    private lateinit var fragmentManager: FragmentManager
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityNavigationDrawerAdminBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        toggle = ActionBarDrawerToggle(this,binding.drawerLayout,R.string.open,R.string.close)
+        // Initialize SharedPreferences
+        sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE)
+
+        toggle = ActionBarDrawerToggle(this, binding.drawerLayout, R.string.open, R.string.close)
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 
@@ -116,7 +123,10 @@ class NavigationDrawerAdmin : AppCompatActivity() {
                     true
                 }
 
-
+                R.id.nav_logout->{
+                    logout()
+                    true
+                }
                 else -> false
 
 
@@ -124,14 +134,28 @@ class NavigationDrawerAdmin : AppCompatActivity() {
         }
     }
 
-    private fun goToFragment(fragment: Fragment){
+    private fun goToFragment(fragment: Fragment) {
         fragmentManager = supportFragmentManager
-        fragmentManager.beginTransaction().replace(R.id.fragmentAdmin,fragment).commit()
+        fragmentManager.beginTransaction().replace(R.id.fragmentAdmin, fragment).commit()
     }
+
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         if (toggle.onOptionsItemSelected(item)) {
             return true
         }
         return super.onOptionsItemSelected(item)
     }
+
+    private fun logout() {
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
+
+        // Redirect to Login Activity
+        val intent = Intent(this, Login::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
+        finish()
+    }
+
 }

@@ -6,6 +6,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.example.bookticketsmobile.DayData
 import com.example.bookticketsmobile.Model.CumRap_cbDoAn
 import com.example.bookticketsmobile.Model.CumRap_khuyenMai
 import com.example.bookticketsmobile.Model.Phim
@@ -16,6 +17,7 @@ import com.example.bookticketsmobile.Model.khachHang
 import com.example.bookticketsmobile.Model.khuyenMai
 import com.example.bookticketsmobile.Model.suatChieu
 import com.example.bookticketsmobile.Model.suatChieuDetail
+import com.example.bookticketsmobile.TimeData
 
 @Dao
 interface BookTicketsDao {
@@ -68,7 +70,24 @@ interface BookTicketsDao {
     fun readAllCbFoodByNameCinameCluster(nameList:String): LiveData<List<cbDoAn>>
     @Query("""SELECT * FROM cbDoAn WHERE tenDoAn LIKE (:nameList)""")
     fun readAllCbFoodByNameFood(nameList:String): LiveData<List<cbDoAn>>
+    @Query("""
+        SELECT suatchieu.ngayChieu
+        FROM suatchieu
+        INNER JOIN phim ON phim.idPhim = suatchieu.idPhim
+        INNER JOIN cumrap ON cumrap.idCumRap = suatchieu.idCumRap
+        WHERE phim.idPhim = :id AND cumrap.idCumRap = :idCr
+    """)
+    fun readAllDateByPhim(id:Int,idCr:Int): LiveData<List<DayData>>
 
+    @Query("""
+       SELECT thoiGianChieu
+    from suatchieu
+    inner join phim on phim.idPhim = suatchieu.idPhim
+    inner join cumrap on cumrap.idCumRap = suatchieu.idCumRap
+    where phim.idPhim = :idP and cumrap.idCumRap = :idCr and suatchieu.ngayChieu = :date
+
+    """)
+    fun readAlltgcByid(idP:Int,idCr:Int,date:String): LiveData<List<TimeData>>
     @Query("UPDATE cbDoAn SET tenDoAn = :tenDoAn, gia = :price WHERE idDoAn = :id")
     fun updateCbDoAn(id: Int, tenDoAn: String, price: Double)
 

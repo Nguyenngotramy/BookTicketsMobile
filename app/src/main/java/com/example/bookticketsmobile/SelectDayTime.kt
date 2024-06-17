@@ -1,98 +1,174 @@
 package com.example.bookticketsmobile
 
-import android.net.Uri
+import android.app.AlertDialog
+import android.graphics.BitmapFactory
 import android.os.Bundle
+import android.view.View
+import android.widget.ArrayAdapter
+import android.widget.Spinner
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.example.bookticketsmobile.Adapter.CustomGridView
+import com.example.bookticketsmobile.Adapter.RvAdapter
+import com.example.bookticketsmobile.Database.BookTicketsDatabase
+import com.example.bookticketsmobile.Database.BookTicketsRepository
 import com.example.bookticketsmobile.databinding.ActivitySelectDayTimeBinding
+import com.example.bookticketsmobile.viewModel.bookTicketViewModel
+import com.example.bookticketsmobile.viewModel.bookTicketViewModelFactory
 
-class SelectDayTime : AppCompatActivity() {
-
+class SelectDayTime : AppCompatActivity(), RvAdapter.OnItemClickListener {
+    private lateinit var myList: MutableList<String>
     private lateinit var binding: ActivitySelectDayTimeBinding
-
+    private lateinit var btViewModel: bookTicketViewModel
+    private var selectedIdCumRap: Int? = null
+    private var idS: Int? = null
+    private var thoiLuong: Long? = null
+//    private var imageBytes: ImageBytes? = null
+    private var nameMovie: String? = null
+    private lateinit var dateAdapter: RvAdapter
+    private lateinit var customerAdapter: CustomGridView
+    private var date: String? = null
+    private var imageBytes: ByteArray? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         binding = ActivitySelectDayTimeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val bundle = intent.extras
-        if (bundle != null) {
-            val nameMovie = bundle.getString("nameMovieS")
-            val category = bundle.getString("categoryS")
-            val mota = bundle.getString("DecriS")
-            val thoiLuong = bundle.getLong("thoiLuongS")
-            val dateOut = bundle.getString("DateOutS")
-            val imgUriString = bundle.getString("imgUriS")
+        setupViewModel()
+        setupRecyclerView()
+        observeViewModel()
 
 
-            binding.nameFilmDay.text = nameMovie
-            binding.txtcategory.text = category
+        binding.NameCinameClusterPickerButton.setOnClickListener {
+            initCinemaClusterPicker()
+        }
 
-            if (thoiLuong > 0) {
-                val durationInMinutes: Long = thoiLuong
-                val formattedTime: String = durationInMinutes.toFormattedTime()
-                binding.txtThoiLuong.text = formattedTime
-            } else {
-                binding.txtThoiLuong.text = "0"
+        val i = intent
+        idS = i.getIntExtra("id", 0)
+        nameMovie = i.getStringExtra("name") ?: "Unknown Film"
+        val category = i.getStringExtra("category") ?: "Unknown Category"
+        val mota = i.getStringExtra("mote") ?: "Unknown Description"
+        date = i.getStringExtra("date") ?: "Unknown Date"
+        val imageBytes = i.getByteArrayExtra("image_bytes")
+        val thoiLuong = i.getLongExtra("thoiLuong", 0)
 
-                imgUriString?.let {
-                    val imgUri = Uri.parse(it)
-                    Glide.with(this)
-                        .load(imgUri)
-                        .placeholder(R.drawable.placeholder_image) // Placeholder image while loading
-                        .error(R.drawable.baseline_image_24) // Image to show if loading fails
-                        .into(binding.detailImg1)
-                    Glide.with(this)
-                        .load(imgUri)
-                        .placeholder(R.drawable.placeholder_image) // Placeholder image while loading
-                        .error(R.drawable.baseline_image_24) // Image to show if loading fails
-                        .into(binding.imgFilmD)
-                }
+        binding.nameFilmDay.text = nameMovie
+        binding.txtcategory.text = category
+
+        if (imageBytes != null) {
+            val bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            binding.imgFilmD.setImageBitmap(bitmap)
+            binding.detailImg1.setImageBitmap(bitmap)
+        }
+
+        if (thoiLuong > 0) {
+            val durationInMinutes: Long = thoiLuong
+            val formattedTime: String = durationInMinutes.toFormattedTime()
+            binding.txtThoiLuong.text = formattedTime
+        } else {
+            binding.txtThoiLuong.text = "0"
+        }
+        setupListView()
+    }
+
+    private fun initCinemaClusterPicker() {
+        val dialogView = layoutInflater.inflate(R.layout.dialog_cinamecluster_picker, null)
+        val spinner: Spinner = dialogView.findViewById(R.id.spinnercinameCluser)
+
+        var cinemaClusterData: List<Pair<Int, String>> = emptyList()
+
+        btViewModel.getAllCinameCluster().observe(this, { cinemaClusters ->
+            cinemaClusterData = cinemaClusters.map { Pair(it.idCumRap, it.tenCumRap!!) }
+            val cinemaClusterNames = cinemaClusterData.map { it.second }
+            val adapter = ArrayAdapter(this, android.R.layout.simple_spinner_item, cinemaClusterNames)
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            spinner.adapter = adapter
+        })
+
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("Choose Cinema Cluster")
+            .setView(dialogView)
+            .setPositiveButton("OK") { dialog, which ->
+                val selectedPosition = spinner.selectedItemPosition
+                val selectedCinemaCluster = cinemaClusterData[selectedPosition]
+                selectedIdCumRap = selectedCinemaCluster.first
+                binding.NameCinameClusterPickerButton.text = selectedCinemaCluster.second
+                refreshDateList()
             }
+            .setNegativeButton("Cancel", null)
+            .create()
 
-            // Setup RecyclerView for days list
-            val dayList = mutableListOf<DayData>()
-            dayList.add(DayData("10/6/2024"))
-            dayList.add(DayData("11/6/2024"))
-            dayList.add(DayData("12/6/2024"))
-            dayList.add(DayData("13/6/2024"))
-            dayList.add(DayData("14/6/2024"))
-            dayList.add(DayData("15/6/2024"))
-            dayList.add(DayData("16/6/2024"))
+        alertDialog.show()
+    }
 
-            val adapter = RvAdapter(dayList)
-            val list1 = findViewById<RecyclerView>(R.id.dayList)
-            list1.adapter = adapter
-            list1.layoutManager = LinearLayoutManager(
-                this,
-                LinearLayoutManager.HORIZONTAL,
-                false
-            )
+    private fun setupViewModel() {
+        val repository = BookTicketsRepository(BookTicketsDatabase(this))
+        val viewModelFactory = bookTicketViewModelFactory(application, repository)
+        btViewModel = ViewModelProvider(this, viewModelFactory).get(bookTicketViewModel::class.java)
+    }
 
-            // Setup RecyclerView for times list
-            val timeList = mutableListOf<TimeData>()
-            timeList.add(TimeData("11:00"))
-            timeList.add(TimeData("12:00"))
-            timeList.add(TimeData("13:00"))
-            timeList.add(TimeData("14:00"))
-            timeList.add(TimeData("15:00"))
-            timeList.add(TimeData("16:00"))
-            timeList.add(TimeData("17:00"))
-            timeList.add(TimeData("18:00"))
-            timeList.add(TimeData("19:00"))
+    fun Long.toFormattedTime(): String {
+        val hours = this / 60
+        val minutes = this % 60
+        return "${hours}h ${minutes}m"
+    }
 
-            // Uncomment below lines if you have a custom GridView adapter
-            /* val customGV = CustomGridView(this, timeList, idFilm, imgFilm, nameFilm)
-        val list2 = findViewById<GridView>(R.id.timeList)
-        list2.adapter = customGV */
+    private fun setupRecyclerView() {
+        dateAdapter = RvAdapter(this, this) // Truyền tham số this vào adapter
+        binding.dayList.apply {
+            layoutManager = LinearLayoutManager(this@SelectDayTime, LinearLayoutManager.HORIZONTAL, false)
+            adapter = dateAdapter
         }
     }
-        fun Long.toFormattedTime(): String {
-            val hours = this / 60
-            val minutes = this % 60
-            return "${hours}h ${minutes}m"
+
+    private fun observeViewModel() {
+        if (idS != null && selectedIdCumRap != null) {
+            btViewModel.getAllDateByPhim(idS!!, selectedIdCumRap!!).observe(this) { mv ->
+                val dayList = mv.map { it }
+                dateAdapter.submitList(dayList)
+                updateUI(mv)
+            }
         }
     }
+
+    private fun updateUI(mv: List<DayData>) {
+        binding.dayList.visibility = if (mv.isNotEmpty()) View.VISIBLE else View.GONE
+    }
+
+    private fun refreshDateList() {
+        observeViewModel()
+    }
+
+    private fun setupListView() {
+        if (idS != null && selectedIdCumRap != null && date != null) {
+            customerAdapter = CustomGridView(this, emptyList(),  0, "Doraemon", 120)
+            binding.timeList.adapter = customerAdapter
+            btViewModel.getAllTgcByid(idS!!, selectedIdCumRap!!, date!!).observe(this) { foods ->
+                customerAdapter.refreshData(foods)
+            }
+        }
+    }
+
+    override fun onItemClick(date: String) { // Hàm triển khai từ interface
+        this.date = date
+        updateDataAndDisplay(date)
+        setupListView() // Call this to update the list view with the new date
+    }
+
+    fun updateDataAndDisplay(newData: String) {
+        if (!::myList.isInitialized) {
+            myList = mutableListOf()
+        }
+        myList.add(newData)
+        displayNewInfo(newData)
+    }
+
+    private fun displayNewInfo(newData: String) {
+
+        val textView: TextView = findViewById(R.id.textView12)
+        textView.text = newData
+    }
+}

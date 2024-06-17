@@ -18,10 +18,11 @@ class PopcornCombo : AppCompatActivity(), OnComboClickListener {
         // lấy dữ liệu từ SelectDayTime
         val i = intent
         val idFilm = i.getIntExtra("idFilm", 0)
-        val imgFilm = i.getIntExtra("imageFilm", 0)
+        val imageBytes = i.getByteArrayExtra("image_bytes")
         val nameFilm = i.getStringExtra("nameFilm")?: "Unknown Film"
         val time = i.getStringExtra("time")?: "Unknown Time"
         val selectedSeat = i.getStringArrayExtra("selectedSeat") ?: emptyArray()
+        val thoiLuong = i.getLongExtra("thoiLuong", 0)
         val totalSeat = i.getDoubleExtra("totalSeat", 0.0)
 
         comboList.add(ComboData(1, "Bắp nước haha", 55000.0, R.drawable.latmat7poster))
@@ -38,7 +39,7 @@ class PopcornCombo : AppCompatActivity(), OnComboClickListener {
         nextBtn.setOnClickListener {
             val i1 = Intent(this, Payment::class.java)
             i1.putExtra("idFilm", idFilm)
-            i1.putExtra("imageFilm", imgFilm)
+            i1.putExtra("imageFilm", imageBytes)
             i1.putExtra("nameFilm", nameFilm)
             i1.putExtra("time", time)
             i1.putExtra("selectedSeat", selectedSeat)
@@ -47,6 +48,7 @@ class PopcornCombo : AppCompatActivity(), OnComboClickListener {
             i1.putExtra("comboNames", comboName)
             i1.putExtra("comboAmounts", comboAmounts)
             i1.putExtra("totalSeat", totalSeat)
+            i1.putExtra("thoiLuong", thoiLuong)
             val calTotalCombo:Double = totalCombo()
             i1.putExtra("totalCombo", calTotalCombo)
             startActivity(i1)

@@ -1,6 +1,6 @@
 package com.example.bookticketsmobile
 
 class DayData (
-    var day:String
+    val ngayChieu:String
 ) {
 }

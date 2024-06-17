@@ -30,7 +30,7 @@ class ListFoodFragment : Fragment(R.layout.fragment_add_food), SearchView.OnQuer
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentListFoodBinding.inflate(inflater, container, false)
-        binding.NameCinameClusterPickerButton.setOnClickListener {
+        binding.ClusterPickerButton.setOnClickListener {
             initCinameClusterPicker()
         }
         val txt = binding.searchViewFood.text.toString()
@@ -106,7 +106,7 @@ class ListFoodFragment : Fragment(R.layout.fragment_add_food), SearchView.OnQuer
                 val selectedName = selectedCinameCluster.second
                 selectedIdCumRap = selectedCinameCluster.first
 
-                binding.NameCinameClusterPickerButton.text = selectedName
+                binding.ClusterPickerButton.text = selectedName
             }
             .setNegativeButton("Cancel", null)
             .create()

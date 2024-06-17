@@ -66,5 +66,7 @@ class bookTicketViewModel(app: Application, private val btrepostory: BookTickets
          fun getAllCustomers() = btrepostory.getAllCustomer()
          fun getAllPerformance() = btrepostory.getAllPerformance()
          fun getAllFoodByName(nameF:String) = btrepostory.getAllFoodByName(nameF)
+         fun getAllDateByPhim(id:Int, idCr:Int) = btrepostory.getAllDateByPhim(id,idCr)
+    fun getAllTgcByid(id:Int, idCr:Int, day:String) = btrepostory.getAllTgcById(id,idCr,day)
 
 }

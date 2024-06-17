@@ -84,33 +84,54 @@ class DetailOfFilm : AppCompatActivity() {
 
     private fun TransmitData(context: Context) {
         val intent = Intent(context, SelectDayTime::class.java)
-        val bundle = Bundle().apply {
-            id?.let { putInt("idF", it) }
-            val name: String = binding.detailName.text.toString()
-            val category: String = binding.catogory.text.toString()
-            val mota: String = binding.txtMota.text.toString()
-            val date: String = binding.txtDateout.text.toString()
-            putString("nameMovieS", name)
-            putString("categoryS", category)
-            putString("DecriS", mota)
+        val drawable = binding.detailImg1.drawable
+        val bitmap = (drawable as BitmapDrawable).bitmap
 
-            val thoiLuongStr = binding.txtThoiLuong.text.toString()
-            val totalMinutes = convertFormattedTimeToMinutes(thoiLuongStr)
+        val stream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream)
+        val imageBytes: ByteArray = stream.toByteArray()
 
-            putLong("thoiLuongS", totalMinutes)
 
-            putString("DateOutS", date)
+        val name: String = binding.detailName.text.toString()
+        val category: String = binding.catogory.text.toString()
+        val mota: String = binding.txtMota.text.toString()
+        val date: String = binding.txtDateout.text.toString()
+        val thoiLuong:String = binding.txtThoiLuong.text.toString()
+        val totalMinutes = convertFormattedTimeToMinutes(thoiLuong)
+        intent.putExtra("id", id)
+        intent.putExtra("name", name)
+        intent.putExtra("category", category)
+        intent.putExtra("mota", mota)
+        intent.putExtra("date", date)
+        intent.putExtra("image_bytes", imageBytes)
+        intent.putExtra("thoiLuong", totalMinutes)
+//        val bundle = Bundle().apply {
+//            id?.let { putInt("idF", it) }
+//            val name: String = binding.detailName.text.toString()
+//            val category: String = binding.catogory.text.toString()
+//            val mota: String = binding.txtMota.text.toString()
+//            val date: String = binding.txtDateout.text.toString()
+//            putString("nameMovieS", name)
+//            putString("categoryS", category)
+//            putString("DecriS", mota)
+//
+//            val thoiLuongStr = binding.txtThoiLuong.text.toString()
+//            val totalMinutes = convertFormattedTimeToMinutes(thoiLuongStr)
+//
+//            putLong("thoiLuongS", totalMinutes)
+//
+//            putString("DateOutS", date)
+//
+//            binding.detailImg1.let {
+//                val byteArray = getByteArrayFromImageView(it)
+//                val uri = saveByteArrayToFileAndGetUri(context, byteArray)
+//                putString("imgUriS", uri.toString())
+//            }
 
-            binding.detailImg1.let {
-                val byteArray = getByteArrayFromImageView(it)
-                val uri = saveByteArrayToFileAndGetUri(context, byteArray)
-                putString("imgUriS", uri.toString())
-            }
+//        }
 
-        }
-
-        intent.putExtras(bundle)
-        context.startActivity(intent)
+//        intent.putExtras(bundle)
+        startActivity(intent)
     }
 
     private fun getByteArrayFromImageView(imageView: ImageView): ByteArray {

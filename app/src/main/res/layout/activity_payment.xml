@@ -63,10 +63,10 @@
         android:textSize="17dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/imgOfFilm"
-        app:layout_constraintTop_toBottomOf="@+id/textView46" />
+        app:layout_constraintTop_toBottomOf="@+id/txtThoiLuongPay" />
 
     <TextView
-        android:id="@+id/textView46"
+        android:id="@+id/txtThoiLuongPay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="20dp"
@@ -86,7 +86,7 @@
         android:textSize="17dp"
         android:textStyle="bold"
         app:layout_constraintStart_toEndOf="@+id/timeOfTicket"
-        app:layout_constraintTop_toBottomOf="@+id/textView46" />
+        app:layout_constraintTop_toBottomOf="@+id/txtThoiLuongPay" />
 
     <TextView
         android:id="@+id/textView48"
